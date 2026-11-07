@@ -16,6 +16,11 @@
     "DEPLOYMENT_LOCKED": "true",
   },
   "previews": {
+    "observability": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "logs": { "enabled": true, "invocation_logs": false, "persist": true },
+    },
     "vars": {
       "ENVIRONMENT": "preview",
       "DEPLOYMENT_LOCKED": "false",
