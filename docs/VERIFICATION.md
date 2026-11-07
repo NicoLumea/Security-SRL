@@ -1,5 +1,15 @@
 # Verification — 7 November 2026
 
+## CI startup correction
+
+Both original remote runs (push 42369051427 and pull request 42369071450) passed dependency installation, type checks, lint, all 9 unit tests, build/link validation, Wrangler dry run and Chromium installation. Both failed before browser scenarios with `Timed out waiting 60000ms from config.webServer.`
+
+The configured readiness URL used `127.0.0.1`, but Astro's default localhost listener resolved to IPv6. A local foreground reproduction returned HTTP 200 on `::1` and connection refused on `127.0.0.1`. Astro also automatically detached in this agent environment, causing an early-process-exit error. The new `preview:static` script explicitly binds IPv4 and uses `--ignore-lock` to keep the process under Playwright's control. Browser scenarios now inspect the built `dist/` assets; run `npm run build` before `npm run test:e2e`. Server stdout/stderr is visible in CI and existing servers are never silently reused.
+
+Local verification confirms HTTP 200 readiness and discovery of all 10 scenarios. Full local browser execution is still blocked by the unavailable Chromium binary after the previously invalid download. The workflow retains `npx playwright install --with-deps chromium`, using the lockfile's Playwright version. No browser or accessibility assertion was removed.
+
+Cloudflare's failing check identifies Worker `security-srl`, build `18b083b9-c26f-4099-bb4f-046e299793a9`. GitHub supplies only a dashboard link, and that dashboard requires authentication. Its actual error, selected branch, commands, Node version and bindings remain unverified. Do not infer a Cloudflare failure cause from the separate Playwright issue. The existing architecture is static Astro `dist/` assets behind `worker/index.ts`; no SSR adapter is configured or needed for that static output. Local Wrangler validation cannot establish live account/build correctness.
+
 ## Repository repair validation
 
 After restoring the root project structure: `npm ci`, type checking (0 errors/warnings/hints), linting, all 9 unit tests, the 23-page production build, 701 internal link/asset checks and the Wrangler preview dry run passed again. These are local checks; the dry run does not deploy. Original source, tests, public assets and Worker bytes are unchanged.
