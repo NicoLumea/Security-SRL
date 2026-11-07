@@ -13,7 +13,8 @@
     "validate:worker": "wrangler deploy --env preview --dry-run --outdir .wrangler/dry-run",
     "deploy:preview": "npm run build && wrangler deploy --env preview",
     "verify:build": "node scripts/verify-build.mjs",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "preview:static": "astro preview --host 127.0.0.1 --port 4321 --ignore-lock"
   },
   "keywords": [],
   "author": "",

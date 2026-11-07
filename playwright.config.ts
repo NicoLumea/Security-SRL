@@ -12,8 +12,11 @@ export default defineConfig({
   webServer: process.env.TEST_BASE_URL
     ? undefined
     : {
-        command: 'npm run dev -- --port 4321',
+        // Exercise the exact production assets already built by CI.
+        command: 'npm run preview:static',
         url: 'http://127.0.0.1:4321',
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer: false,
+        stdout: 'pipe',
+        stderr: 'pipe',
       },
 });

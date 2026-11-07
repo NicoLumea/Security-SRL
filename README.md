@@ -45,9 +45,11 @@ npm run test:e2e
 
 `npm run validate:worker` performs a local dry run, not a deployment. GitHub Actions runs these checks and never deploys. See `docs/VERIFICATION.md` for actual results and limitations from this delivery.
 
-## Git state
+## Repository
 
-Local branch: `feature/security-concept-gallery`. Local `main` contains only the initialization README and ignore file. GitHub account `NicoLumea` was verified through the connector; repository creation was unavailable there and the browser required sign-in. **No remote repository or PR was created.** The deliverable includes a Git bundle preserving both branches. Follow `docs/GITHUB_SETUP.md`.
+Repository: https://github.com/NicoLumea/Security-SRL
+
+The project runs from the repository root. The `fix/repository-structure` branch repairs the manually uploaded layout while preserving the Phase 1–2 source. See `docs/REPOSITORY_REPAIR.md` for the file audit and `docs/GITHUB_SETUP.md` for the review workflow. Keep the repair PR unmerged until reviewed; CI does not deploy.
 
 ## Configuration
 
