@@ -96,8 +96,12 @@ test('reduced motion, fallback and no-JS navigation', async ({ page, browser }) 
   await context.close();
 });
 test('primary pages have no serious accessibility violations', async ({ page }) => {
+  // Scan fully visible content, not a transient frame of the scroll reveal fade.
+  // Other browser tests retain normal motion; no axe rules or content are excluded.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const path of ['/', home, home + 'contact/', home + 'proiecte/']) {
     await page.goto(path);
+    await page.evaluate(() => document.fonts.ready);
     const result = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
       .analyze();

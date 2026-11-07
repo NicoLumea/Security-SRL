@@ -1,10 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "security-srl-locked",
+  "name": "security-srl",
   "main": "worker/index.ts",
   "compatibility_date": "2026-11-07",
   "workers_dev": false,
-  "preview_urls": false,
+  "preview_urls": true,
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
@@ -15,28 +15,17 @@
     "ENVIRONMENT": "locked",
     "DEPLOYMENT_LOCKED": "true",
   },
-  "env": {
-    "preview": {
-      "name": "security-srl-preview",
-      "workers_dev": true,
-      "preview_urls": false,
-      "vars": {
-        "ENVIRONMENT": "preview",
-        "DEPLOYMENT_LOCKED": "false",
-      },
-      "d1_databases": [],
-      "r2_buckets": [],
+  "previews": {
+    "observability": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "logs": { "enabled": true, "invocation_logs": false, "persist": true },
     },
-    "production": {
-      "name": "security-srl-production",
-      "workers_dev": false,
-      "preview_urls": false,
-      "vars": {
-        "ENVIRONMENT": "production",
-        "DEPLOYMENT_LOCKED": "true",
-      },
-      "d1_databases": [],
-      "r2_buckets": [],
+    "vars": {
+      "ENVIRONMENT": "preview",
+      "DEPLOYMENT_LOCKED": "false",
     },
+    "d1_databases": [],
+    "r2_buckets": [],
   },
 }

@@ -21,7 +21,7 @@ npm ci
 npm run dev
 ```
 
-Development serves on localhost. It does not include the deployment perimeter; do not expose the Astro dev server to clients. To inspect the production assets with the perimeter, copy `.dev.vars.example` to `.dev.vars.preview`, enter a preview username and unique password of at least 24 characters, then run:
+Development serves on localhost. It does not include the deployment perimeter; do not expose the Astro dev server to clients. To inspect the production assets with the perimeter, copy `.dev.vars.example` to `.dev.vars`, enter a preview username and unique password of at least 24 characters, then run:
 
 ```sh
 npm run build
