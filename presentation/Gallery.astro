@@ -1,0 +1,178 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { concepts } from '../data/content';
+import { copy, type Locale } from '../i18n';
+import { route, galleryRoute } from '../lib/routes';
+import Icon from '../components/Icon.astro';
+import facade from '../assets/facade.jpg';
+import '../styles/gallery.css';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+
+<Base
+  lang={lang}
+  title={t.gallery}
+  description={t.galleryIntro}
+  alternate={galleryRoute(lang === 'ro' ? 'en' : 'ro')}
+  bodyClass="gallery-page"
+>
+  <header class="gallery-header container">
+    <a href={galleryRoute(lang)} class="gallery-wordmark">
+      SECURITY<span>SRL</span>
+      <i aria-hidden="true"></i>
+      <small>{lang === 'ro' ? 'STUDIU DIGITAL' : 'DIGITAL STUDY'}</small>
+    </a>
+    <a
+      class="language"
+      href={galleryRoute(lang === 'ro' ? 'en' : 'ro')}
+      lang={lang === 'ro' ? 'en' : 'ro'}
+    >
+      {lang === 'ro' ? 'RO / EN' : 'EN / RO'}
+      <Icon name="diagonal" size={14} />
+    </a>
+  </header>
+  <main id="main" class="container">
+    <section class="gallery-intro">
+      <span class="eyebrow">
+        <span class="gold-line"></span>
+        {t.galleryEyebrow}
+      </span>
+      <h1>
+        {lang === 'ro' ? (
+          <>
+            Patru direcții.
+            <br />
+            <span>O singură viziune.</span>
+          </>
+        ) : (
+          <>
+            Four directions.
+            <br />
+            <span>One vision.</span>
+          </>
+        )}
+      </h1>
+      <div class="gallery-intro-bottom">
+        <p>{t.galleryIntro}</p>
+        <div class="edition">
+          <span>01 — 04</span>
+          <small>{lang === 'ro' ? 'COLECȚIA DE CONCEPTE' : 'CONCEPT COLLECTION'}</small>
+        </div>
+      </div>
+    </section>
+    <section class="concept-grid" aria-label={t.gallery}>
+      {concepts.map((c) => (
+        <article class:list={['concept-card', c.id, { 'is-available': c.available }]}>
+          <div class="concept-preview">
+            <div class="preview-top">
+              <span>
+                {c.number} / {c.name.toUpperCase()}
+              </span>
+              <span>
+                {c.available ? '●' : '○'} {c.available ? t.available : t.soon}
+              </span>
+            </div>
+            {c.id === 'sentinel' ? (
+              <>
+                <Image
+                  src={facade}
+                  alt={
+                    lang === 'ro'
+                      ? 'Direcție Sentinel: cameră de supraveghere pe o fațadă metalică aurie.'
+                      : 'Sentinel direction: surveillance camera on a gold metal facade.'
+                  }
+                  widths={[600, 1000]}
+                  sizes="(max-width: 700px) 100vw, 50vw"
+                  loading="eager"
+                />
+                <div class="mini-sentinel">
+                  <small>SECURITY SRL</small>
+                  <strong>
+                    {lang === 'ro' ? (
+                      <>
+                        Securitatea începe
+                        <br />
+                        cu încrederea.
+                      </>
+                    ) : (
+                      <>
+                        Security begins
+                        <br />
+                        with trust.
+                      </>
+                    )}
+                  </strong>
+                  <span>
+                    {t.viewProjects} <Icon size={14} />
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div class={`moodboard mood-${c.id}`} aria-hidden="true">
+                {c.id === 'vanguard' ? (
+                  <>
+                    <span class="mood-word">
+                      BEYOND
+                      <br />
+                      THE EXPECTED.
+                    </span>
+                    <span class="mood-corner">↗</span>
+                  </>
+                ) : c.id === 'precision' ? (
+                  <>
+                    <div class="precision-grid"></div>
+                    <span class="precision-circle"></span>
+                    <span class="mood-small">
+                      ENGINEERED.
+                      <br />
+                      IN EVERY DETAIL.
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span class="dominion-ring"></span>
+                    <span class="mood-word">
+                      A STRONGER
+                      <br />
+                      <i>PRESENCE.</i>
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+          <div class="concept-info">
+            <div class="concept-title">
+              <span>{c.number}</span>
+              <h2>{c.name}</h2>
+              <small>{c[lang].subtitle}</small>
+            </div>
+            <p>{c[lang].description}</p>
+            {c.available ? (
+              <a href={route(lang)} class="concept-action">
+                {t.explore}
+                <span class="circle-arrow">
+                  <Icon name="diagonal" size={20} />
+                </span>
+              </a>
+            ) : (
+              <div class="concept-action unavailable">
+                <span>{t.soon}</span>
+                <Icon name="plus" size={19} />
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
+    </section>
+    <footer class="gallery-footer">
+      <div>
+        <span>{t.galleryFooter}</span>
+        <p>{t.galleryNote}</p>
+      </div>
+      <span class="eyebrow">SECURITY SRL © {new Date().getFullYear()}</span>
+    </footer>
+  </main>
+</Base>

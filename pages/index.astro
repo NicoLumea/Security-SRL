@@ -1,0 +1,7 @@
+---
+import Gallery from '../presentation/Gallery.astro';
+import { site } from '../config/site';
+if (!site.presentation) return Astro.redirect('/ro/');
+---
+
+<Gallery lang="ro" />

@@ -1,0 +1,35 @@
+---
+import { concepts } from '../data/content';
+import { copy, type Locale } from '../i18n';
+import { route, galleryRoute } from '../lib/routes';
+import Icon from '../components/Icon.astro';
+const { lang = 'ro' } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+
+<aside class="presentation-bar" aria-label={t.proposal}>
+  <a href={galleryRoute(lang)}>
+    <Icon name="grid" size={14} />
+    <span>{t.gallery}</span>
+  </a>
+  <details class="concept-menu">
+    <summary>
+      <span class="status-dot"></span>01 — Sentinel <span aria-hidden="true">⌄</span>
+    </summary>
+    <nav aria-label={t.gallery}>
+      {concepts.map((c) =>
+        c.available ? (
+          <a href={route(lang)} aria-current="true">
+            {c.number} / {c.name}
+          </a>
+        ) : (
+          <span aria-disabled="true">
+            {c.number} / {c.name}
+            <small>{t.soon}</small>
+          </span>
+        ),
+      )}
+    </nav>
+  </details>
+  <span class="presentation-label">{t.proposal}</span>
+</aside>

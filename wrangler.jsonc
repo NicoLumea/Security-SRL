@@ -1,0 +1,42 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "security-srl-locked",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-07",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "404-page",
+  },
+  "vars": {
+    "ENVIRONMENT": "locked",
+    "DEPLOYMENT_LOCKED": "true",
+  },
+  "env": {
+    "preview": {
+      "name": "security-srl-preview",
+      "workers_dev": true,
+      "preview_urls": false,
+      "vars": {
+        "ENVIRONMENT": "preview",
+        "DEPLOYMENT_LOCKED": "false",
+      },
+      "d1_databases": [],
+      "r2_buckets": [],
+    },
+    "production": {
+      "name": "security-srl-production",
+      "workers_dev": false,
+      "preview_urls": false,
+      "vars": {
+        "ENVIRONMENT": "production",
+        "DEPLOYMENT_LOCKED": "true",
+      },
+      "d1_databases": [],
+      "r2_buckets": [],
+    },
+  },
+}

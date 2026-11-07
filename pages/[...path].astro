@@ -1,0 +1,68 @@
+---
+import Gallery from '../presentation/Gallery.astro';
+import Sentinel from '../layouts/Sentinel.astro';
+import Home from '../concepts/sentinel/Home.astro';
+import InnerPage from '../concepts/sentinel/InnerPage.astro';
+import { site } from '../config/site';
+import { locales, copy, routeNames, type Locale, type PageKey } from '../i18n';
+import { route } from '../lib/routes';
+import { projects, type Project } from '../data/content';
+export function getStaticPaths() {
+  const paths: {
+    params: { path: string };
+    props: { lang: Locale; page: PageKey; project?: Project; gallery?: boolean };
+  }[] = [];
+  if (site.presentation)
+    paths.push({ params: { path: 'en' }, props: { lang: 'en', page: 'home', gallery: true } });
+  for (const lang of locales) {
+    for (const page of Object.keys(routeNames[lang]) as PageKey[])
+      paths.push({
+        params: { path: route(lang, page).replace(/^\/|\/$/g, '') },
+        props: { lang, page },
+      });
+    for (const project of projects)
+      paths.push({
+        params: { path: route(lang, 'projects', project[lang].slug).replace(/^\/|\/$/g, '') },
+        props: { lang, page: 'projects', project },
+      });
+  }
+  return paths;
+}
+const { lang, page, project, gallery } = Astro.props;
+const other = lang === 'ro' ? 'en' : 'ro';
+const alternate = route(other, page, project?.[other].slug);
+const t = copy[lang];
+const descriptions = {
+  home: t.heroDescription,
+  services: t.servicesPageIntro,
+  projects: t.projectDisclaimer,
+  about: t.aboutIntro,
+  contact: t.contactIntro,
+  privacy: t.privacyText,
+  cookies: t.cookieText,
+  login: t.loginText,
+};
+const title = project
+  ? `${project[lang].title} · ${copy[lang].demo}`
+  : page === 'home'
+    ? copy[lang].heroTitle
+    : copy[lang][page];
+---
+
+{gallery ? (
+  <Gallery lang={lang} />
+) : (
+  <Sentinel
+    lang={lang}
+    page={page}
+    title={title}
+    description={project?.[lang].description ?? descriptions[page]}
+    alternate={alternate}
+  >
+    {page === 'home' ? (
+      <Home lang={lang} />
+    ) : (
+      <InnerPage lang={lang} page={page} project={project} />
+    )}
+  </Sentinel>
+)}
