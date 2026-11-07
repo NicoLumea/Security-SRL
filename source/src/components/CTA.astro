@@ -1,0 +1,18 @@
+---
+import { copy, type Locale } from '../i18n';
+import { route } from '../lib/routes';
+import Icon from './Icon.astro';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+
+<section class="cta-section container">
+  <div>
+    <span class="eyebrow">{t.contact}</span>
+    <h2>{t.ctaTitle}</h2>
+    <p>{t.ctaText}</p>
+  </div>
+  <a href={route(lang, 'contact')} class="big-arrow" aria-label={t.contactUs}>
+    <Icon name="diagonal" size={42} />
+  </a>
+</section>

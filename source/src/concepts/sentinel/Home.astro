@@ -1,0 +1,187 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { copy, type Locale } from '../../i18n';
+import { services, projects } from '../../data/content';
+import { site } from '../../config/site';
+import { route } from '../../lib/routes';
+import Icon from '../../components/Icon.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CTA from '../../components/CTA.astro';
+import facade from '../../assets/facade.jpg';
+import surveillance from '../../assets/surveillance.jpg';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+const poster = await getImage({ src: facade, width: 1600, format: 'webp' });
+const featured = site.featuredOrder
+  .map((id) => projects.find((p) => p.id === id))
+  .filter((p): p is (typeof projects)[number] => Boolean(p));
+---
+
+<section class="hero">
+  <Image
+    class="hero-image"
+    src={facade}
+    alt=""
+    widths={[800, 1200, 1600]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  {site.heroVideo.mp4 && (
+    <video
+      class="hero-video"
+      data-hero-video
+      muted
+      loop
+      playsinline
+      preload="none"
+      poster={poster.src}
+      aria-hidden="true"
+      style={`object-position:${site.heroVideo.objectPosition}`}
+    >
+      {site.heroVideo.webm && <source data-src={site.heroVideo.webm} type="video/webm" />}
+      <source data-src={site.heroVideo.mp4} type="video/mp4" />
+    </video>
+  )}
+  <div class="hero-shade"></div>
+  <div class="container hero-content">
+    <div class="hero-top">
+      <span class="eyebrow">
+        <span class="gold-line"></span>
+        {t.heroEyebrow}
+      </span>
+      <span class="hero-marker" aria-hidden="true">
+        01 / SENTINEL
+      </span>
+    </div>
+    <h1>
+      {lang === 'ro' ? (
+        <>
+          Securitatea începe
+          <br />
+          cu <em>încrederea.</em>
+        </>
+      ) : (
+        <>
+          Security begins
+          <br />
+          with <em>trust.</em>
+        </>
+      )}
+    </h1>
+    <div class="hero-bottom">
+      <div>
+        <p>{t.heroDescription}</p>
+        <div class="actions">
+          <a class="button gold" href={route(lang, 'projects')}>
+            {t.viewProjects}
+            <Icon name="diagonal" size={18} />
+          </a>
+          <a class="button outline" href={route(lang, 'contact')}>
+            {t.contactUs}
+            <Icon size={18} />
+          </a>
+        </div>
+      </div>
+      <div class="hero-caption">
+        <span class="crosshair" aria-hidden="true"></span>
+        <span>
+          {t.illustration}
+          <small>SECURITY / ARCHITECTURE</small>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="hero-rail container">
+  <span>
+    {lang === 'ro' ? 'SUPRAVEGHERE · CONTROL · PROTECȚIE' : 'SURVEILLANCE · CONTROL · PROTECTION'}
+  </span>
+  <a href="#solutions">
+    {t.scroll}
+    <span aria-hidden="true">↓</span>
+  </a>
+</div>
+<section class="section container" id="solutions">
+  <div class="section-heading reveal">
+    <div>
+      <span class="eyebrow">{t.servicesEyebrow}</span>
+      <h2>{t.servicesTitle}</h2>
+    </div>
+    <p>{t.servicesIntro}</p>
+  </div>
+  <div class="services-grid">
+    {services.map((s, i) => (
+      <a class="service-card reveal" href={`${route(lang, 'services')}#${s.id}`}>
+        <div class="service-top">
+          <Icon name={s.icon} size={35} />
+          <span>0{i + 1}</span>
+        </div>
+        <h3>{s[lang].title}</h3>
+        <p>{s[lang].text}</p>
+        <Icon name="diagonal" size={20} />
+      </a>
+    ))}
+  </div>
+</section>
+<section class="projects-section section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <div>
+        <span class="eyebrow">{t.projectsEyebrow}</span>
+        <h2>{t.projectsTitle}</h2>
+      </div>
+      <a class="text-link" href={route(lang, 'projects')}>
+        {t.allProjects}
+        <Icon name="diagonal" size={19} />
+      </a>
+    </div>
+    <p class="section-intro">{t.projectsIntro}</p>
+    <div class="featured-track" data-featured>
+      {featured.map((p) => (
+        <ProjectCard project={p} lang={lang} />
+      ))}
+    </div>
+    <div class="rotation-controls" data-rotation-controls hidden>
+      <button type="button" data-previous aria-label={t.previous}>
+        ←
+      </button>
+      <span class="rotation-count" data-slide-count>
+        01 / 02
+      </span>
+      <button type="button" data-next aria-label={t.next}>
+        →
+      </button>
+      <button
+        type="button"
+        data-rotate
+        data-play={t.play}
+        data-pause={t.pause}
+        aria-pressed="false"
+      >
+        {t.play}
+      </button>
+    </div>
+  </div>
+</section>
+<section class="section container about-preview">
+  <div class="about-image reveal">
+    <Image
+      src={surveillance}
+      alt={projects[1][lang].alt}
+      widths={[480, 800]}
+      sizes="(max-width:700px) 90vw, 40vw"
+    />
+    <span class="image-label">{t.illustration}</span>
+  </div>
+  <div class="about-content reveal">
+    <span class="eyebrow">{t.aboutEyebrow}</span>
+    <h2>{t.aboutTitle}</h2>
+    <p>{t.aboutText}</p>
+    <a class="text-link" href={route(lang, 'about')}>
+      {t.moreAbout}
+      <Icon name="diagonal" size={20} />
+    </a>
+  </div>
+</section>
+<CTA lang={lang} />

@@ -1,0 +1,23 @@
+---
+import { site } from '../config/site';
+const { href = '/' } = Astro.props;
+---
+
+<a class="brand" href={href} aria-label={site.brand.name}>
+  {site.brand.logo ? (
+    <img src={site.brand.logo} width="38" height="38" alt="" />
+  ) : (
+    <svg viewBox="0 0 36 42" width="31" height="36" fill="none" aria-hidden="true">
+      <path
+        d="M18 2 33 8v12c0 9-15 19-15 19S3 29 3 20V8L18 2Z"
+        stroke="currentColor"
+        stroke-width="1.4"
+      />
+      <path d="m24 12-12 6 12 6-12 6" stroke="currentColor" stroke-width="1.5" />
+    </svg>
+  )}
+  <span>
+    {site.brand.name}
+    <small>SECURITY SYSTEMS</small>
+  </span>
+</a>

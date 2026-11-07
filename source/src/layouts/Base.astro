@@ -1,0 +1,62 @@
+---
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { site } from '../config/site';
+import { copy, type Locale } from '../i18n';
+import Consent from '../components/Consent.astro';
+interface Props {
+  lang: Locale;
+  title: string;
+  description?: string;
+  alternate: string;
+  bodyClass?: string;
+}
+const {
+  lang,
+  title,
+  description = copy[lang].heroDescription,
+  alternate,
+  bodyClass = '',
+} = Astro.props;
+const colors = site.brand.colors;
+const canonical = site.productionOrigin
+  ? new URL(Astro.url.pathname, site.productionOrigin).href
+  : undefined;
+---
+
+<!doctype html>
+<html
+  lang={lang}
+  style={`--bg:${colors.background};--surface:${colors.surface};--text:${colors.text};--muted:${colors.muted};--gold:${colors.gold}`}
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <title>{title} — {site.brand.name}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#08090B" />
+    <link rel="icon" href="/favicon.svg" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link
+      rel="alternate"
+      hreflang={lang === 'ro' ? 'en' : 'ro'}
+      href={site.productionOrigin ? new URL(alternate, site.productionOrigin).href : alternate}
+    />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === 'ro' ? 'ro_RO' : 'en_GB'} />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip" href="#main">
+      {copy[lang].skip}
+    </a>
+    <slot />
+    <Consent lang={lang} />
+    <script>
+      import '../scripts/ui';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+// Documentation only. Do NOT pass this file to Wrangler.
+// Replace markers with real IDs only after creating resources in the intended account.
+{
+ "preview": {
+  "d1_databases": [{"binding":"DB","database_name":"security-srl-preview-db","database_id":"REPLACE_WITH_PREVIEW_D1_ID","migrations_dir":"migrations"}],
+  "r2_buckets": [{"binding":"MEDIA","bucket_name":"security-srl-preview-media"}]
+ },
+ "production": {
+  "d1_databases": [{"binding":"DB","database_name":"security-srl-production-db","database_id":"REPLACE_WITH_PRODUCTION_D1_ID","migrations_dir":"migrations"}],
+  "r2_buckets": [{"binding":"MEDIA","bucket_name":"security-srl-production-media"}]
+ }
+}

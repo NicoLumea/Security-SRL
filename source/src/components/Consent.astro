@@ -1,0 +1,44 @@
+---
+import { copy, type Locale } from '../i18n';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+---
+
+<dialog id="consent" aria-labelledby="consent-title">
+  <div class="dialog-head">
+    <span class="eyebrow">{t.preferences}</span>
+    <button type="button" data-consent-close aria-label={t.close}>
+      ×
+    </button>
+  </div>
+  <h2 id="consent-title">{t.cookieHeading}</h2>
+  <p>{t.cookieBody}</p>
+  <div id="consent-options" hidden>
+    <label>
+      <input type="checkbox" checked disabled />
+      {t.necessary}
+    </label>
+    <label>
+      <input type="checkbox" id="analytics" />
+      {t.analytics}
+    </label>
+    <label>
+      <input type="checkbox" id="marketing" />
+      {t.marketing}
+    </label>
+  </div>
+  <div class="consent-buttons">
+    <button type="button" data-choice="accept">
+      {t.accept}
+    </button>
+    <button type="button" data-choice="reject">
+      {t.reject}
+    </button>
+    <button type="button" data-customize>
+      {t.customize}
+    </button>
+    <button type="button" data-choice="save" hidden>
+      {t.save}
+    </button>
+  </div>
+</dialog>

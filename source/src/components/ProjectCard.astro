@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import { copy, type Locale } from '../i18n';
+import type { Project } from '../data/content';
+import { route } from '../lib/routes';
+import Icon from './Icon.astro';
+const { project, lang } = Astro.props as { project: Project; lang: Locale };
+const d = project[lang];
+const t = copy[lang];
+---
+
+<article
+  class="project-card"
+  data-project
+  data-category={project.category}
+  data-search={`${d.title} ${d.description} ${d.category}`}
+>
+  <a href={route(lang, 'projects', d.slug)}>
+    <div class="project-image">
+      <Image
+        src={project.image}
+        alt={d.alt}
+        widths={[480, 800, 1200]}
+        sizes="(max-width: 700px) 90vw, 45vw"
+        style={`object-position:${project.position}`}
+      />
+      <span class="image-label">{t.demo}</span>
+      <span class="project-arrow">
+        <Icon name="diagonal" />
+      </span>
+    </div>
+    <div class="project-meta">
+      <span>{d.category}</span>
+      <span aria-hidden="true">↗</span>
+    </div>
+    <h3>{d.title}</h3>
+    <p>{d.description}</p>
+  </a>
+</article>

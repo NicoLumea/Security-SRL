@@ -1,0 +1,121 @@
+---
+import Base from './Base.astro';
+import { site } from '../config/site';
+import { copy, type Locale, type PageKey } from '../i18n';
+import { route } from '../lib/routes';
+import Switcher from '../presentation/Switcher.astro';
+import Brand from '../components/Brand.astro';
+import Icon from '../components/Icon.astro';
+import '../styles/sentinel.css';
+interface Props {
+  lang: Locale;
+  page: PageKey;
+  title: string;
+  description?: string;
+  alternate: string;
+}
+const { lang, page, title, description, alternate } = Astro.props;
+const t = copy[lang];
+const pages: PageKey[] = ['home', 'services', 'projects', 'about', 'contact'];
+---
+
+<Base
+  lang={lang}
+  title={title}
+  description={description}
+  alternate={alternate}
+  bodyClass="sentinel"
+>
+  {site.presentation && <Switcher lang={lang} />}
+  <header class="site-header" data-header>
+    <div class="container nav-row">
+      <Brand href={route(lang)} />
+      <nav
+        class="desktop-nav"
+        aria-label={lang === 'ro' ? 'Navigare principală' : 'Main navigation'}
+      >
+        {pages.map((p) => (
+          <a
+            class:list={{ 'portfolio-link': p === 'projects' }}
+            href={route(lang, p)}
+            aria-current={page === p ? 'page' : undefined}
+          >
+            {t[p]}
+          </a>
+        ))}
+      </nav>
+      <div class="nav-tools">
+        <a
+          class="language"
+          href={alternate}
+          lang={lang === 'ro' ? 'en' : 'ro'}
+          aria-label={lang === 'ro' ? 'Switch to English' : 'Schimbă în română'}
+        >
+          <span class="active-lang">{lang.toUpperCase()}</span>
+          <span>/</span>
+          {lang === 'ro' ? 'EN' : 'RO'}
+        </a>
+        <details class="mobile-menu">
+          <summary aria-label={t.menu}>
+            <span></span>
+            <span></span>
+          </summary>
+          <nav aria-label={t.menu}>
+            {pages.map((p) => (
+              <a href={route(lang, p)} aria-current={page === p ? 'page' : undefined}>
+                {t[p]}
+                <Icon name="diagonal" size={18} />
+              </a>
+            ))}
+          </nav>
+        </details>
+      </div>
+    </div>
+  </header>
+  <main id="main">
+    <slot />
+  </main>
+  <footer class="footer container">
+    <div class="footer-grid">
+      <div>
+        <Brand href={route(lang)} />
+        <p class="footer-copy">{t.footerText}</p>
+      </div>
+      <nav aria-label={lang === 'ro' ? 'Navigare subsol' : 'Footer navigation'}>
+        {pages.slice(1).map((p) => (
+          <a href={route(lang, p)}>{t[p]}</a>
+        ))}
+      </nav>
+      <div class="footer-contact">
+        <span class="eyebrow">{t.contact}</span>
+        {site.contact.email ? (
+          <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+        ) : (
+          <p>{t.contactPending}</p>
+        )}{' '}
+        {site.contact.phone && <a href={`tel:${site.contact.phone}`}>{site.contact.phone}</a>}
+        {site.contact.address && <p>{site.contact.address}</p>}
+        {site.contact.whatsapp && <a href={site.contact.whatsapp}>WhatsApp</a>}
+        {site.contact.socials.map((s) => (
+          <a href={s.url} rel="noopener noreferrer">
+            {s.label}
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>
+        © {new Date().getFullYear()} {site.brand.name}
+      </span>
+      <a href={route(lang, 'privacy')}>{t.privacy}</a>
+      <a href={route(lang, 'cookies')}>{t.cookies}</a>
+      <button type="button" data-open-consent>
+        {t.preferences}
+      </button>
+      <a class="staff-link" href={route(lang, 'login')}>
+        {t.login} ↗
+      </a>
+    </div>
+    <p class="disclosure">{t.demoNotice}</p>
+  </footer>
+</Base>

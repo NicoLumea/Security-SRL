@@ -1,0 +1,31 @@
+SECURITY SRL — PHASE 1–2
+
+Local branch: feature/security-concept-gallery
+Commit: 14989bbe1713e9144b80d25ce7849f7f64aae00d
+
+CONTENTS
+source/ — complete source, tests, configuration and documentation
+Security-SRL.bundle — complete Git history, including initialized main and feature branch
+preview-build/ — compiled static preview; use locally only
+
+QUICK LOCAL VIEW
+From this extracted directory:
+  python3 -m http.server 8000 --bind 127.0.0.1 --directory preview-build
+On Windows, use py in place of python3. Open http://127.0.0.1:8000/
+Do not deploy the static directory publicly without its Worker access gate.
+
+DEVELOP / RESTORE
+  git clone Security-SRL.bundle Security-SRL
+  cd Security-SRL
+  npm ci
+  npm run dev
+Node 24+ is required.
+
+READ FIRST
+source/docs/GITHUB_SETUP.md — restore, create PRIVATE GitHub repo and push both branches
+source/docs/CLOUDFLARE_SETUP.md — private preview setup; production remains disabled
+source/docs/VERIFICATION.md — actual tests and limitations
+source/docs/PRESENTATION_GUIDE.md — client review walkthrough
+
+STATUS
+Local implementation complete for presentation review. No GitHub repository/PR was created, and no Cloudflare deployment or production publication occurred. Full Playwright execution remains blocked by the missing browser download in this environment. Staff/CMS/email integrations are future work, not live features.

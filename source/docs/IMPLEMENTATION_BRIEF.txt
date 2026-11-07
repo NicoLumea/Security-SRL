@@ -1,0 +1,1846 @@
+# PROJECT: SECURITY SRL
+## Four-Concept Website Presentation and Production-Ready Foundation
+
+### 1. YOUR ROLE
+
+You are acting as a senior full-stack developer, UI/UX designer, cloud infrastructure engineer, and website security architect.
+
+Your assignment is to create an exceptionally polished, interactive website presentation for a Romanian company specializing in the installation of security systems.
+
+The website must look premium, technically sophisticated, modern, elegant, and professionally engineered.
+
+However, the interface must remain simple enough for nontechnical business owners to navigate comfortably.
+
+We are creating four distinct website design concepts so that a prospective client can compare different visual directions before choosing one.
+
+This is a client presentation, not an approved production website.
+
+The presentation should nevertheless establish a strong technical foundation that can be converted into a production website without rebuilding the application from scratch.
+
+**CRITICAL: Prioritize quality over the number of features implemented in one iteration.**
+
+Do not create four unfinished or mediocre websites simply to complete all four concepts.
+
+Establish the reusable presentation architecture, then develop Concept 01 to a very high standard.
+
+After Concept 01 is complete and verified, the remaining concepts can be developed in separate iterations.
+
+---
+
+# 2. PROJECT IDENTITY
+
+Working client name:
+
+Security SRL
+
+Industry:
+
+Physical security system installation and business security infrastructure.
+
+Typical solutions may include:
+
+- CCTV surveillance systems.
+- Security cameras.
+- Access control systems.
+- Alarm systems.
+- Business security infrastructure.
+- Commercial property security.
+
+These services are illustrative until the client confirms the actual offering.
+
+Do not fabricate business history, qualifications, certifications, project statistics, testimonials, customers, partnerships, or completed installations.
+
+Use clearly identifiable placeholder content wherever business information is unavailable.
+
+Country:
+
+Romania.
+
+Primary language:
+
+Romanian.
+
+Secondary language:
+
+English.
+
+The architecture must support additional languages later.
+
+Potential future languages could include Hungarian and German, but these should not appear as selectable languages until translated content exists.
+
+The business name, logo, brand colors, contact details, service descriptions, and project information must be configurable.
+
+---
+
+# 3. GITHUB REQUIREMENTS
+
+Use the GitHub account:
+
+NicoLumea
+
+This is the account used for previous projects including Grand Media, Café Kalma, and Sévant Digital.
+
+Create a NEW repository specifically for this project.
+
+Suggested repository name:
+
+Security-SRL
+
+Suggested repository URL:
+
+https://github.com/NicoLumea/Security-SRL
+
+This URL is only the intended destination and must not be represented as an existing repository until creation succeeds.
+
+Requirements:
+
+1. Check whether the repository already exists.
+2. If it does not exist, create it under NicoLumea.
+3. Use a private repository initially.
+4. Initialize the repository with an appropriate README.
+5. Configure a proper .gitignore.
+6. Use a modern Astro and TypeScript project.
+7. Add the Cloudflare Workers configuration.
+8. Include all required configuration examples.
+9. Configure GitHub Actions for automated testing.
+10. Create a feature branch for development.
+11. Open a pull request once the initial implementation is ready.
+
+Suggested branch:
+
+feature/security-concept-gallery
+
+Do not merge the pull request automatically.
+
+Do not deploy to a public production domain.
+
+If GitHub authentication is unavailable, stop the repository-creation step and provide the exact manual procedure.
+
+Do not invent successful connections, repository creation, deployments, or access permissions.
+
+---
+
+# 4. CLOUDFLARE INFRASTRUCTURE
+
+The project must be designed for deployment through Cloudflare Workers.
+
+Use the same Cloudflare account already associated with the user's previous GitHub-connected projects.
+
+Do not assume an account identifier, API token, or authentication session is available.
+
+Use current Cloudflare-supported deployment configurations.
+
+Prepare:
+
+- Cloudflare Workers configuration.
+- GitHub integration compatibility.
+- Cloudflare D1 database configuration.
+- Cloudflare R2 storage configuration.
+- Environment variable examples.
+- Separate preview and production environments.
+- Clear deployment documentation.
+
+Suggested Worker names:
+
+security-srl-preview
+
+security-srl-production
+
+Suggested storage resources:
+
+security-srl-preview-db
+
+security-srl-production-db
+
+security-srl-preview-media
+
+security-srl-production-media
+
+Keep production and preview resources completely separate.
+
+Do not allow preview deployments to write to the production database or production R2 bucket.
+
+Do not commit API tokens, database credentials, session secrets, or email credentials to GitHub.
+
+Ensure that Cloudflare Worker names and Wrangler configuration names match for the relevant deployment.
+
+The user should be able to connect the GitHub repository through:
+
+Cloudflare Dashboard → Workers & Pages → Create Application → GitHub Repository.
+
+If the required permissions are unavailable, document the exact manual steps.
+
+Do not automatically activate production deployment.
+
+---
+
+# 5. WEBSITE PRESENTATION GALLERY
+
+The website root URL must open a neutral concept presentation gallery.
+
+Example:
+
+/
+
+This is the first screen the client sees.
+
+It must not look like the security company's final production homepage.
+
+Instead, it should function as an elegant digital showroom presenting four website directions.
+
+Gallery design:
+
+- Premium black background.
+- Large white heading.
+- Subtle gold accent lines.
+- Modern typography.
+- Four visually distinctive preview cards.
+- Clean spacing.
+- Smooth hover effects.
+- Professional presentation controls.
+
+Suggested heading in Romanian:
+
+"Patru direcții. O singură viziune."
+
+Suggested supporting message:
+
+"Explorați patru concepte digitale create pentru prezentarea unei companii moderne de sisteme de securitate."
+
+Each card should contain:
+
+- Concept number.
+- Concept name.
+- Preview image.
+- Short description.
+- Explore button.
+- Availability indicator.
+
+Concepts:
+
+01 — Sentinel
+
+02 — Vanguard
+
+03 — Precision
+
+04 — Dominion
+
+The gallery should support both desktop and mobile viewing.
+
+Unavailable concepts must be visibly marked as works in progress.
+
+Do not make unavailable buttons appear functional.
+
+Do not present incomplete concepts as complete.
+
+Add a discreet disclosure explaining that the websites are design proposals and not the company's official website.
+
+---
+
+# 6. CONCEPT SWITCHER
+
+Implement a reusable presentation-only concept switcher.
+
+It must work similarly to the system developed for the Café Kalma website concepts.
+
+Features:
+
+- Available across all four concepts.
+- Shows the active concept.
+- Allows switching directly between concepts.
+- Includes a link back to the main gallery.
+- Works on desktop and mobile.
+- Accessible using a keyboard.
+- Supports screen readers.
+- Uses smooth but restrained animations.
+- Maintains appropriate navigation behavior.
+- Does not require JavaScript for basic navigation.
+
+The presentation switcher should be visually distinguishable from the actual client website navigation.
+
+It must be removable or disabled through one configuration setting when a concept is selected for production.
+
+Do not permanently embed the presentation controls into the business website architecture.
+
+---
+
+# 7. VISUAL DESIGN SYSTEM
+
+The default visual theme across all four concepts is:
+
+Premium Black / White / Gold.
+
+Suggested design tokens:
+
+Background Primary:
+#08090B
+
+Background Secondary:
+#141619
+
+Surface:
+#1B1D20
+
+Primary Text:
+#F5F5F2
+
+Secondary Text:
+#A9ADB3
+
+Primary Accent:
+#C5A46D
+
+Secondary Accent:
+#8D764D
+
+Borders:
+Subtle charcoal and low-opacity gold.
+
+These are initial proposal colors and must remain configurable.
+
+Avoid excessive gold.
+
+Gold should be used for:
+
+- Selected navigation indicators.
+- Fine accent lines.
+- Important buttons.
+- Hover states.
+- Selected icons.
+- Decorative interface details.
+
+Most of the visual presentation should be black, charcoal, and white.
+
+The overall appearance must communicate:
+
+Precision.
+
+Professionalism.
+
+Security.
+
+Trust.
+
+Technical competence.
+
+Luxury without extravagance.
+
+Use premium, properly licensed typography.
+
+The site must not look like a gaming website, an overly complicated dashboard, or a generic cybersecurity template.
+
+It should look like a modern company that installs reliable physical security infrastructure.
+
+---
+
+# 8. CONCEPT 01 — SENTINEL
+
+Primary inspiration:
+
+https://www.wix.com/website-template/view/html/wh-1004
+
+This is the preferred reference.
+
+Study its visual composition, typography, spacing, navigation, hero treatment, scroll behavior, and overall atmosphere.
+
+Create an original design inspired by these characteristics.
+
+Do not copy Wix source code, proprietary assets, or template imagery.
+
+Concept identity:
+
+Sentinel — Premium Security.
+
+Design philosophy:
+
+Minimal complexity, maximum visual quality.
+
+The website should feel deliberately engineered.
+
+Use:
+
+- Cinematic photography.
+- Strong typography.
+- Large dark visual sections.
+- Carefully controlled gold highlights.
+- Elegant transitions.
+- Smooth scrolling.
+- Responsive content blocks.
+- Sophisticated hover states.
+- Attractive portfolio previews.
+
+The homepage must not be excessively long.
+
+It should provide a concise overview of the company and encourage visitors to explore dedicated pages.
+
+---
+
+# 9. HOMEPAGE STRUCTURE
+
+Create the following sections.
+
+## 9.1 Navigation
+
+A sticky navigation bar containing:
+
+- Logo placeholder.
+- Acasă.
+- Servicii.
+- Proiecte.
+- Despre noi.
+- Contact.
+- Language selector.
+
+The Projects link must be particularly visible.
+
+The portfolio is one of the most important features of the website.
+
+Navigation must remain accessible while scrolling.
+
+When scrolling down:
+
+- Slightly reduce navigation height.
+- Introduce a subtle background blur.
+- Maintain good contrast.
+- Avoid distracting movement.
+
+When scrolling upward:
+
+- Restore appropriate navigation prominence.
+
+Respect reduced-motion preferences.
+
+## 9.2 Cinematic Hero
+
+Create a large hero section containing:
+
+- Full-width background video area.
+- Dark overlay.
+- Main heading.
+- Short supporting description.
+- Primary call-to-action.
+- Secondary call-to-action.
+
+Suggested illustrative Romanian headline:
+
+"Securitatea începe cu încrederea."
+
+Supporting message:
+
+"Soluții moderne de supraveghere și protecție pentru spațiile în care activitatea dumneavoastră contează."
+
+Primary button:
+
+"Descoperă proiectele"
+
+Secondary button:
+
+"Contactează-ne"
+
+The video should depict professional security-system installation or surveillance infrastructure.
+
+Possible scenes:
+
+- A technician installing a security camera.
+- Close-up of modern surveillance equipment.
+- A modern commercial building.
+- Security control equipment.
+- Professional access-control infrastructure.
+
+Do not generate misleading representations of actual company projects.
+
+If a suitable licensed video cannot be obtained, create a visually appealing hero fallback using original graphics or licensed photography.
+
+Do not fabricate a video or pretend that a missing video file exists.
+
+Provide a clearly defined video slot that can be replaced later.
+
+The final video system must support:
+
+- MP4.
+- WebM where appropriate.
+- Autoplay when permitted.
+- Muted playback.
+- Continuous looping.
+- Playsinline on mobile.
+- Poster image.
+- Reduced-motion fallback.
+- Responsive cropping and positioning.
+- Lazy loading or optimized delivery where practical.
+
+The video must not block page rendering.
+
+Prepare a future administrative video-upload capability using R2.
+
+Do not expose R2 administrative credentials in the browser.
+
+## 9.3 Services Preview
+
+Show approximately three or four illustrative security-service categories.
+
+Use elegant icons.
+
+Example categories:
+
+- Supraveghere video.
+- Control acces.
+- Sisteme de alarmă.
+- Soluții integrate de securitate.
+
+These categories must remain editable.
+
+Hover interaction:
+
+Initially, icons appear in muted silver or grey.
+
+On hover:
+
+- Icon gradually transitions toward gold.
+- A small border or accent becomes visible.
+- The card moves subtly.
+- Background brightness changes slightly.
+
+On mobile, use accessible focus, pressed, or visibility treatments instead of relying solely on hover.
+
+Use professional icons that match the visual style.
+
+Each category links to an appropriate service detail or services page.
+
+## 9.4 Featured Projects
+
+Create an important featured-project section.
+
+Show two or three featured project cards.
+
+The cards must be visually impressive without occupying excessive homepage space.
+
+Include:
+
+- Project image.
+- Project title.
+- Category.
+- Short description.
+- Link to individual project page.
+
+Allow featured projects to rotate using a restrained carousel or configurable rotation system.
+
+The rotation should be pausable and should respect reduced-motion settings.
+
+The administrator must eventually be able to choose which projects are featured.
+
+Do not imply that illustrative examples represent actual completed client work.
+
+Include a prominent button:
+
+"Vezi toate proiectele"
+
+## 9.5 About Preview
+
+Create a short introduction to the business.
+
+Include:
+
+- Small heading.
+- Short introductory paragraph.
+- Supporting security-related image.
+- Link to the full About page.
+
+Avoid invented business claims.
+
+## 9.6 Contact Call-to-Action
+
+Create a compact contact section.
+
+Example heading:
+
+"Pregătiți să vă securizați afacerea?"
+
+Include a clear contact button.
+
+Avoid creating an overly complicated contact interface.
+
+## 9.7 Footer
+
+Create a professional footer containing:
+
+- Logo placeholder.
+- Short editable company description.
+- Important navigation links.
+- Contact details placeholders.
+- Social media icons.
+- Privacy Policy.
+- Cookie Policy.
+- Cookie preferences.
+- Copyright notice.
+- Staff login link.
+
+The staff login link should be discreetly positioned near the bottom.
+
+Suggested Romanian label:
+
+"Acces personal"
+
+It should not appear in the primary navigation.
+
+However, the route must remain protected by proper authentication and authorization.
+
+Hiding the login link is not a security mechanism.
+
+---
+
+# 10. DEDICATED WEBSITE PAGES
+
+Create distinct routes for the main pages.
+
+Required:
+
+Homepage.
+
+Services.
+
+Projects / Portfolio.
+
+Individual Project.
+
+About Us.
+
+Contact.
+
+Privacy Policy.
+
+Cookie Policy.
+
+Staff Login.
+
+Staff Dashboard.
+
+Where appropriate, provide a language-specific URL architecture.
+
+Suggested public routes:
+
+/ro/
+
+/ro/servicii/
+
+/ro/proiecte/
+
+/ro/proiecte/[slug]/
+
+/ro/despre-noi/
+
+/ro/contact/
+
+/ro/politica-de-confidentialitate/
+
+/ro/politica-cookie/
+
+/en/
+
+Corresponding English routes should be designed to support translated equivalents.
+
+Keep the initial presentation routes separated from production public routes.
+
+If needed, use a concept-specific routing prefix such as:
+
+/concepts/sentinel/ro/
+
+Ensure there is a documented strategy for promoting the chosen concept to the production URL structure later.
+
+All links must work correctly.
+
+Do not create dead-end navigation.
+
+---
+
+# 11. PORTFOLIO SYSTEM
+
+The portfolio is a priority feature.
+
+The portfolio overview must be:
+
+- Visually prominent.
+- Easy to navigate.
+- Fully responsive.
+- Search-engine friendly when published.
+- Editable by authorized staff.
+
+Portfolio layout:
+
+Use a professional grid displaying project cards.
+
+Each project must have a dedicated URL.
+
+Example:
+
+/ro/proiecte/instalare-supraveghere-bucuresti/
+
+The URL above is only an example and must not be presented as a real completed project.
+
+Project records should support:
+
+- Unique identifier.
+- Title.
+- Slug.
+- Description.
+- Project category.
+- Project location, when approved.
+- Completion date, when confirmed.
+- Cover image.
+- Multiple gallery images.
+- Image alt text.
+- SEO title.
+- SEO description.
+- Featured status.
+- Display order.
+- Draft or published status.
+- Creation timestamp.
+- Update timestamp.
+- Last editor.
+
+Optional:
+
+- Client name.
+- Equipment category.
+- Installation details.
+- Video.
+- Technical specifications.
+
+Do not automatically disclose customer identities or security-sensitive installation details.
+
+A security company's portfolio may reveal sensitive information.
+
+Provide controls allowing the administrator to omit precise addresses, device configurations, camera placement, network topology, and other sensitive details.
+
+The project-management system must support adding, updating, reordering, publishing, and archiving projects.
+
+Use R2 for images and video storage.
+
+Store media metadata and project relationships in D1.
+
+Implement image optimization and responsive image sizes.
+
+Image alt text should describe the image accurately.
+
+Do not treat alt text as a place to insert excessive advertising keywords.
+
+---
+
+# 12. ADMIN AND EMPLOYEE ACCOUNT SYSTEM
+
+Create the foundation for two staff roles:
+
+ADMIN.
+
+EMPLOYEE.
+
+There must be no general public customer account system unless it is explicitly requested later.
+
+## Admin Permissions
+
+Administrators can:
+
+- Approve employee registrations.
+- Reject employee registrations.
+- Disable employee accounts.
+- Manage staff permissions.
+- Create and edit projects.
+- Publish and unpublish projects.
+- Manage featured projects.
+- Modify supported website content.
+- Upload approved media.
+- Configure contact information.
+- Manage social media links.
+- Review contact inquiries.
+- View appropriate analytics.
+- Review audit logs.
+
+## Employee Permissions
+
+Employees can:
+
+- Log into the dashboard.
+- Create project drafts.
+- Edit authorized project drafts.
+- Upload project media.
+- Update approved editable content.
+- Submit changes for review.
+
+Employees cannot:
+
+- Approve their own account.
+- Create administrators.
+- Grant themselves additional permissions.
+- Access authentication secrets.
+- Modify infrastructure settings.
+- Publish website changes without administrator approval.
+
+Use a server-enforced role-based access-control system.
+
+Do not rely on frontend visibility controls alone.
+
+## Staff Registration Workflow
+
+Staff registration requests must require administrator approval.
+
+Suggested flow:
+
+1. Employee requests an account.
+2. Request is recorded as pending.
+3. Administrator reviews the request.
+4. Administrator approves or rejects.
+5. Approved employee receives an activation email.
+6. Employee completes activation.
+7. Employee establishes secure login credentials.
+8. Account becomes active.
+
+Unapproved accounts must not have dashboard access.
+
+Do not permit unrestricted public staff registration in production.
+
+---
+
+# 13. FIRST ADMIN ACCOUNT
+
+This requirement is extremely important.
+
+We do not yet have the final administrator details.
+
+Do not hardcode a default administrator email address or password.
+
+Do not create universal default login credentials.
+
+Implement a secure initial-administrator bootstrap procedure.
+
+The procedure should:
+
+- Require authorized infrastructure access.
+- Support a one-time initialization process.
+- Create the first administrator securely.
+- Prevent repeated bootstrap attempts.
+- Produce an audit record.
+- Be disabled after initialization.
+
+The user must be able to complete first-admin setup later, after the client presentation.
+
+Document the exact steps in:
+
+docs/ADMIN_SETUP.md
+
+Ensure there is a secure recovery procedure for administrator lockouts.
+
+Do not create an unauthenticated public recovery endpoint.
+
+---
+
+# 14. AUTHENTICATION SECURITY
+
+Use a current, maintained authentication solution compatible with the selected Cloudflare Workers runtime.
+
+Requirements:
+
+- Secure password hashing.
+- Secure session management.
+- HTTP-only cookies.
+- Secure cookies.
+- Appropriate SameSite protection.
+- CSRF protection.
+- Session expiration.
+- Session revocation.
+- Login rate limiting.
+- Strong password requirements.
+- Email verification.
+- Password reset.
+- Short-lived, single-use activation tokens.
+- Role enforcement on the server.
+- Audit logging.
+
+Design the system to support MFA for administrators, preferably using passkeys or TOTP.
+
+Use Cloudflare Turnstile on vulnerable public-facing forms where appropriate.
+
+Do not use localStorage for authentication secrets.
+
+---
+
+# 15. DATABASE DESIGN
+
+Use Cloudflare D1 as the proposed primary database.
+
+Plan tables for:
+
+Staff users.
+
+Staff registration requests.
+
+Sessions and authentication records.
+
+Password reset and activation tokens.
+
+Projects.
+
+Project categories.
+
+Project media.
+
+Content sections.
+
+Site settings.
+
+Translations.
+
+Contact inquiries.
+
+Email delivery records.
+
+Audit logs.
+
+Consent records, where legally appropriate.
+
+Media metadata.
+
+Design the database using migrations.
+
+Include schema documentation.
+
+Avoid collecting unnecessary personal information.
+
+Use appropriate indexes and query pagination.
+
+Ensure that database migrations can be applied independently to preview and production environments.
+
+---
+
+# 16. MEDIA STORAGE
+
+Use Cloudflare R2.
+
+Requirements:
+
+- Secure media uploads.
+- File-type validation.
+- Upload-size limits.
+- Safe object naming.
+- Upload authorization.
+- Image metadata.
+- File replacement.
+- File deletion.
+- Orphan-file cleanup.
+- Appropriate caching.
+- Responsive image delivery.
+
+Create a media-management interface for administrators and authorized employees.
+
+The system must support:
+
+- Portfolio photographs.
+- Portfolio galleries.
+- Homepage video.
+- Company logo.
+- Service imagery.
+- About-page imagery.
+
+Prefer private storage with controlled publication of approved assets where practical.
+
+Do not allow unauthorized users to upload arbitrary files.
+
+---
+
+# 17. EMAIL SYSTEM
+
+Use Resend for transactional emails.
+
+Required email types:
+
+- Staff account activation.
+- Staff approval notification.
+- Staff rejection notification, when appropriate.
+- Password reset.
+- Administrative security notifications.
+- Contact inquiry notification.
+
+Prepare:
+
+- Resend integration.
+- Environment variable configuration.
+- Email templates.
+- Delivery error handling.
+- Retry policy.
+- Logging of delivery status.
+- Development email testing.
+
+Do not use invented production sender addresses.
+
+The system must allow the user to configure a verified sending domain later.
+
+Do not activate live email delivery without appropriate domain verification and credentials.
+
+During development, support a safe testing mode using a non-delivery transport or approved testing destination.
+
+Do not log passwords, complete activation tokens, or other authentication secrets.
+
+Avoid retrying non-idempotent emails without safeguards against duplicate delivery.
+
+---
+
+# 18. STAFF DASHBOARD
+
+Create a clean administration interface.
+
+The design should be professional, simple, and easy to use.
+
+It does not need to imitate the public-facing website.
+
+Dashboard sections:
+
+Overview.
+
+Projects.
+
+Media Library.
+
+Website Content.
+
+Featured Projects.
+
+Contact Inquiries.
+
+Staff Management.
+
+Site Settings.
+
+Audit History.
+
+Only administrators should see administrative functions.
+
+Employees should see only their permitted functions.
+
+Include:
+
+- Clear navigation.
+- Draft indicators.
+- Publish status.
+- Save confirmation.
+- Error states.
+- Loading states.
+- Accessible forms.
+- Mobile usability.
+
+Do not build a complicated page-builder system unnecessarily.
+
+Instead, use structured editable content blocks.
+
+---
+
+# 19. EDITABLE WEBSITE CONTENT
+
+Because the final client content is not yet available, make the following configurable:
+
+- Company name.
+- Logo.
+- Tagline.
+- Homepage headline.
+- Homepage description.
+- Services.
+- Service descriptions.
+- Service icons.
+- About text.
+- Featured projects.
+- Portfolio categories.
+- Portfolio images.
+- Contact email.
+- Telephone.
+- WhatsApp.
+- Business address.
+- Social media profiles.
+- Homepage video.
+- Footer information.
+- SEO metadata.
+
+Provide clear placeholders.
+
+Do not mix editable content deeply into layout code.
+
+Store initial presentation content in configuration or seed files.
+
+Design a migration path to database-backed content management after the website is commissioned.
+
+---
+
+# 20. CONTACT PAGE
+
+Create a separate Contact page.
+
+Use an elegant dark interface.
+
+Contact options should include configurable icons for:
+
+LinkedIn.
+
+Facebook.
+
+Instagram.
+
+WhatsApp.
+
+X.
+
+Email.
+
+Telephone.
+
+Other social platforms should be easy to add later.
+
+Do not display empty or invented social media links as real business profiles.
+
+Use placeholders or hide unavailable options.
+
+Include a contact form with:
+
+Name.
+
+Email.
+
+Company, optional.
+
+Telephone, optional.
+
+Message.
+
+Consent acknowledgement where required.
+
+The form must support:
+
+Validation.
+
+Spam protection.
+
+Rate limiting.
+
+Accessible feedback.
+
+Successful submission confirmation.
+
+Secure server-side processing.
+
+In the presentation stage, do not collect real inquiries unless a legitimate backend, privacy information, and client-approved data handling arrangements are configured.
+
+Provide a demonstrable non-submitting form when live collection is disabled.
+
+Once activated, inquiries should be stored in D1 and optionally forwarded using Resend.
+
+---
+
+# 21. LANGUAGE SYSTEM
+
+Romanian must be the default language.
+
+Use a clean internationalization architecture.
+
+Provide:
+
+Romanian translation files.
+
+English translation files.
+
+Language-specific SEO metadata.
+
+Localized navigation.
+
+Localized button labels.
+
+Localized forms.
+
+Localized error messages.
+
+Localized project slugs when appropriate.
+
+Use translation keys rather than duplicating page layouts.
+
+Do not expose incomplete language options as fully translated versions.
+
+Prepare future support for Hungarian and German.
+
+The language selector should be discreet and integrated into the main navigation.
+
+Users should not need browser translation to access the English version.
+
+---
+
+# 22. COOKIE CONSENT
+
+Implement a privacy-conscious cookie-consent system.
+
+The consent banner should appear approximately ten seconds after the user's first visit if the user has not already made a valid consent choice.
+
+Do not delay the blocking of nonessential scripts until the banner appears.
+
+Nonessential analytics and marketing tracking must remain disabled until valid consent is obtained.
+
+Provide:
+
+Accept All.
+
+Reject Nonessential.
+
+Customize.
+
+Allow users to change their preferences later.
+
+Store the appropriate consent choices.
+
+Create a Cookie Policy page.
+
+The website should be capable of collecting consented analytics about:
+
+- Page visits.
+- Page categories visited.
+- Approximate location, where permitted.
+- Session duration estimates.
+- Navigation behavior.
+- Portfolio engagement.
+
+Use data minimization.
+
+Do not store unnecessary precise location information.
+
+Avoid invasive tracking and unnecessary visitor fingerprinting.
+
+Account for GDPR, German and Romanian/EU electronic privacy requirements, and applicable consent rules.
+
+Do not claim legal compliance is complete without review of the final implementation and privacy notices.
+
+---
+
+# 23. SEO AND DISCOVERABILITY
+
+The future production website must be search-engine friendly.
+
+Implement support for:
+
+Semantic HTML.
+
+Structured headings.
+
+Individual project URLs.
+
+Unique page titles.
+
+Unique meta descriptions.
+
+Canonical URLs.
+
+Open Graph metadata.
+
+Responsive images.
+
+Descriptive image alt text.
+
+Sitemap generation.
+
+Robots.txt.
+
+Breadcrumb navigation.
+
+Appropriate structured data.
+
+Language alternates.
+
+Clean URLs.
+
+Accessible navigation.
+
+Fast page loading.
+
+In the presentation environment:
+
+Apply noindex directives and appropriate access controls.
+
+Do not allow demonstration content to become indexed as genuine company information.
+
+When the website is approved for production:
+
+Enable indexing only after real content, legal information, and canonical URLs are verified.
+
+Noindex alone is not sufficient to protect private previews.
+
+---
+
+# 24. SCROLL ANIMATIONS
+
+This is one of the most important visual requirements.
+
+The site should feel modern and alive without distracting the visitor.
+
+Use subtle animations connected to scrolling.
+
+Possible effects:
+
+- Text fading into view.
+- Cards gently rising into place.
+- Images revealing gradually.
+- Small gold accent lines expanding.
+- Service icons transitioning from grey to gold.
+- Navigation bar resizing.
+- Section transitions.
+- Controlled background movement.
+
+Avoid excessive parallax.
+
+Avoid heavy animation libraries unless justified.
+
+Prefer CSS and IntersectionObserver where sufficient.
+
+Use transform and opacity for performant animations.
+
+Respect prefers-reduced-motion.
+
+Animations must not prevent users from accessing content.
+
+The website should remain usable even when JavaScript is unavailable.
+
+---
+
+# 25. RESPONSIVE DESIGN
+
+The website must work properly at:
+
+320px.
+
+390px.
+
+768px.
+
+1024px.
+
+1440px.
+
+And other reasonable viewport sizes.
+
+Requirements:
+
+- No horizontal overflow.
+- Responsive typography.
+- Responsive navigation.
+- Correct image aspect ratios.
+- Appropriate video cropping.
+- Accessible buttons.
+- Comfortable touch targets.
+- Readable forms.
+- Consistent spacing.
+- Smooth mobile scrolling.
+
+Do not indiscriminately crop important parts of security equipment or installation images.
+
+Use object-position controls where appropriate.
+
+Mobile navigation must be fully keyboard accessible.
+
+The mobile design should receive the same attention as the desktop experience.
+
+---
+
+# 26. PERFORMANCE AND RELIABILITY
+
+Implement reasonable production-minded engineering foundations.
+
+Include:
+
+Rate limiting.
+
+Caching.
+
+Timeout handling.
+
+Retry policies.
+
+Error boundaries.
+
+Appropriate request validation.
+
+Logging.
+
+Monitoring hooks.
+
+Queue-compatible background processing.
+
+Dead-letter queue planning.
+
+Message deduplication.
+
+Database migration procedures.
+
+Do not introduce unnecessary infrastructure before there is a genuine operational need.
+
+For example:
+
+Use Cloudflare Queues later for asynchronous email or media processing if project complexity justifies it.
+
+Provide architectural documentation now.
+
+Do not claim load balancing, message queues, or dead-letter queue functionality exists unless it has actually been implemented and tested.
+
+Leverage Cloudflare's existing edge infrastructure where appropriate.
+
+---
+
+# 27. CONCEPT 02 — VANGUARD
+
+Reference:
+
+https://www.wix.com/website-template/view/html/3883
+
+Adapt the immersive dark interface language into a security company website.
+
+Design direction:
+
+Bold.
+
+Interactive.
+
+Modern.
+
+Editorial.
+
+Use:
+
+- Large typography.
+- Dramatic content blocks.
+- Strong project imagery.
+- Responsive card layouts.
+- Dynamic but controlled transitions.
+
+Avoid gaming-specific graphics, language, or aesthetics.
+
+Retain the black, white, and gold family.
+
+Make it visibly different from Sentinel.
+
+---
+
+# 28. CONCEPT 03 — PRECISION
+
+Reference:
+
+https://www.wix.com/website-template/view/html/5682
+
+Adapt the modern technology-company visual language to physical security installations.
+
+Design direction:
+
+Architectural.
+
+Minimal.
+
+Technical.
+
+Structured.
+
+Use:
+
+- Precise grids.
+- Generous spacing.
+- Elegant diagrams or service illustrations.
+- Strong alignment.
+- Clean typography.
+- Minimal animations.
+- High-quality equipment photography.
+
+This concept should emphasize engineering quality and technical competence.
+
+Retain the overall color family.
+
+---
+
+# 29. CONCEPT 04 — DOMINION
+
+Reference:
+
+https://www.wix.com/website-template/view/html/4206
+
+Adapt the energetic presentation style into a premium business-security website.
+
+Design direction:
+
+Confident.
+
+Dynamic.
+
+Contemporary.
+
+Visually expressive.
+
+Use:
+
+- Strong section transitions.
+- Asymmetric compositions.
+- Large project previews.
+- Interactive service cards.
+- Polished calls to action.
+- Restrained motion.
+
+Do not use exaggerated marketing language or unverified company achievements.
+
+Retain the black, white, and gold family.
+
+---
+
+# 30. CODE ARCHITECTURE
+
+Use a clean, modular project structure.
+
+Suggested organization:
+
+src/
+
+components/
+
+layouts/
+
+pages/
+
+concepts/
+
+presentation/
+
+lib/
+
+data/
+
+i18n/
+
+styles/
+
+server/
+
+auth/
+
+database/
+
+media/
+
+email/
+
+public/
+
+assets/
+
+videos/
+
+images/
+
+migrations/
+
+tests/
+
+docs/
+
+The exact structure may be adjusted to follow current Astro conventions.
+
+Important architectural rule:
+
+The presentation gallery and concept switcher must remain separate from production website functionality.
+
+Each concept should have sufficiently independent visual components and styles.
+
+Shared backend services should not be duplicated unnecessarily.
+
+The concept selected by the client should be able to become the production website without carrying unnecessary presentation code into the final build.
+
+---
+
+# 31. TESTING
+
+Set up appropriate automated verification.
+
+At minimum, test:
+
+- All primary routes.
+- Gallery navigation.
+- Concept switcher.
+- Language selector.
+- Mobile navigation.
+- Responsive layouts.
+- Reduced-motion behavior.
+- Image loading.
+- Video fallback.
+- Form validation.
+- Authentication authorization boundaries.
+- Protected dashboard access.
+- Project slug generation.
+- Database migration compatibility.
+- Cloudflare Worker build.
+
+Use suitable automated browser testing.
+
+Run:
+
+Dependency installation.
+
+Type checking.
+
+Linting.
+
+Production build.
+
+Wrangler validation.
+
+Automated tests.
+
+Do not claim that a test passed unless it actually ran successfully.
+
+Document any unavailable infrastructure or tests.
+
+---
+
+# 32. DEVELOPMENT PHASES
+
+Complete the project in controlled phases.
+
+## PHASE 1 — PROJECT FOUNDATION
+
+Tasks:
+
+1. Verify GitHub access.
+2. Create the Security-SRL repository if authorized.
+3. Initialize Astro and TypeScript.
+4. Configure the Cloudflare Workers architecture.
+5. Configure linting and testing.
+6. Create the reusable brand settings.
+7. Establish translation architecture.
+8. Create the presentation gallery.
+9. Create the concept switcher.
+10. Establish route architecture.
+11. Add GitHub Actions.
+
+## PHASE 2 — SENTINEL DESIGN
+
+Tasks:
+
+1. Build Concept 01.
+2. Implement navigation.
+3. Implement cinematic hero.
+4. Add video placeholder and fallback.
+5. Build service previews.
+6. Build featured projects.
+7. Build portfolio overview.
+8. Create individual project routes.
+9. Create About page.
+10. Create Contact page.
+11. Build footer.
+12. Add scroll animations.
+13. Test responsiveness.
+14. Polish visual details.
+
+Concept 01 must feel like a complete premium website presentation.
+
+## PHASE 3 — BACKEND FOUNDATION
+
+Tasks:
+
+1. Design D1 database schema.
+2. Create migrations.
+3. Configure R2 media architecture.
+4. Build safe authentication foundations.
+5. Prepare administrator bootstrap.
+6. Implement server-side role checks.
+7. Create the dashboard structure.
+8. Create project draft management.
+9. Prepare content management.
+10. Prepare Resend integration.
+11. Implement appropriate security controls.
+
+Use development-safe configuration.
+
+Do not activate public registration or live production data collection.
+
+## PHASE 4 — ADDITIONAL CONCEPTS
+
+Develop:
+
+Vanguard.
+
+Precision.
+
+Dominion.
+
+Each concept must be visually distinctive.
+
+Reuse the backend architecture.
+
+Do not allow visual design changes in one concept to unintentionally affect the others.
+
+## PHASE 5 — PRESENTATION REVIEW
+
+Verify:
+
+- Four concept cards.
+- Correct concept navigation.
+- Complete Sentinel presentation.
+- Clearly identified incomplete concepts.
+- Responsive behavior.
+- Professional visual finish.
+- No broken links.
+- No placeholder content misrepresented as factual.
+- No unauthorized public access.
+- No exposed credentials.
+
+Create a documented checklist for presenting the website to the client.
+
+---
+
+# 33. DOCUMENTATION
+
+Create:
+
+README.md
+
+docs/PROJECT_OVERVIEW.md
+
+docs/ARCHITECTURE.md
+
+docs/GITHUB_SETUP.md
+
+docs/CLOUDFLARE_SETUP.md
+
+docs/DATABASE_SETUP.md
+
+docs/ADMIN_SETUP.md
+
+docs/RESEND_SETUP.md
+
+docs/CONTENT_MANAGEMENT.md
+
+docs/PRESENTATION_GUIDE.md
+
+docs/PRODUCTION_LAUNCH_CHECKLIST.md
+
+Explain how to:
+
+- Run the project locally.
+- Connect GitHub.
+- Connect Cloudflare Workers.
+- Configure D1.
+- Configure R2.
+- Configure Resend.
+- Add the first administrator.
+- Upload homepage video.
+- Edit company branding.
+- Create portfolio projects.
+- Add translations.
+- Enable the production website.
+- Remove presentation controls.
+- Deploy the approved concept.
+
+Use clear instructions understandable to a developer with basic experience.
+
+---
+
+# 34. SOURCE MATERIALS
+
+The following documents define the project:
+
+1. Website_Concept_Gallery_Playbook.docx
+2. new site.docx
+
+Read both documents if available in the Codex workspace.
+
+The playbook defines the reusable presentation methodology.
+
+The New Site document specifies the client's website requirements and technical expectations.
+
+If these files are not available in the Codex environment, do not claim to have read them.
+
+Use the requirements provided in this prompt and explicitly identify any information that remains unavailable.
+
+The project must be implemented as an original website.
+
+Wix references are visual inspiration only.
+
+---
+
+# 35. IMPORTANT RESTRICTIONS
+
+Do not:
+
+- Invent client projects.
+- Invent business certifications.
+- Invent customer testimonials.
+- Invent actual company statistics.
+- Invent addresses or contact details.
+- Publish production credentials.
+- Hardcode administrator passwords.
+- Enable uncontrolled staff registration.
+- Treat hidden navigation as authentication security.
+- Copy proprietary Wix assets.
+- Expose the database publicly.
+- Mix production and preview storage.
+- Activate real tracking without appropriate consent.
+- Merge pull requests automatically.
+- Enable production deployment without approval.
+- Present incomplete functionality as complete.
+
+Prioritize:
+
+Visual quality.
+
+Maintainable code.
+
+Accessible interactions.
+
+Secure architecture.
+
+Clear documentation.
+
+Future editability.
+
+Simple administration.
+
+Professional presentation.
+
+---
+
+# 36. EXPECTED FIRST DELIVERY
+
+For the first implementation, concentrate on:
+
+1. A properly initialized GitHub repository.
+2. Cloudflare-compatible configuration.
+3. A beautiful four-concept presentation gallery.
+4. A functional reusable concept switcher.
+5. A polished Sentinel website concept.
+6. Romanian-first content and English support.
+7. Dedicated project routes with demonstration data.
+8. Video support with a reliable fallback.
+9. Architecture and interfaces prepared for future CMS and staff features.
+10. A pull request containing the completed work.
+
+Backend components that cannot be safely completed without credentials or infrastructure should be documented as pending.
+
+Do not fake backend integrations.
+
+Do not sacrifice visual quality to implement every production feature immediately.
+
+At the end, provide:
+
+- Repository URL, if successfully created.
+- Branch name.
+- Pull request URL, if successfully opened.
+- Build and test results.
+- Cloudflare deployment status.
+- Preview URL, if deployment succeeded.
+- A summary of completed features.
+- A summary of pending configuration.
+- Clear instructions for any manual GitHub or Cloudflare authorization.
+
+Most importantly:
+
+**Make the first design look like a premium, fully considered security company's website rather than a generic unfinished template.**
+
+The client's presentation experience comes first.
+
+The technical architecture must make the eventual transition to a real production website straightforward.
+
+Begin implementing Phase 1 and Phase 2.
+
+Do not merge or publish to production.
