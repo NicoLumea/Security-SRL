@@ -6,13 +6,19 @@ const { lang } = Astro.props as { lang: Locale };
 const t = copy[lang];
 ---
 
-<section class="cta-section container">
-  <div>
+<section class="cta-section container" data-reveal-group>
+  <div data-reveal="fade-up">
     <span class="eyebrow">{t.contact}</span>
     <h2>{t.ctaTitle}</h2>
     <p>{t.ctaText}</p>
   </div>
-  <a href={route(lang, 'contact')} class="big-arrow" aria-label={t.contactUs}>
+  <a
+    href={route(lang, 'contact')}
+    class="big-arrow"
+    data-reveal="fade-up"
+    data-reveal-delay="150"
+    aria-label={t.contactUs}
+  >
     <Icon name="diagonal" size={42} />
   </a>
 </section>

@@ -47,7 +47,7 @@ const titles = {
   <>
     <section class="container service-details">
       {services.map((s, i) => (
-        <article id={s.id} class="service-detail reveal">
+        <article id={s.id} class="service-detail" data-reveal={i % 2 ? 'fade-right' : 'fade-left'}>
           <span class="service-number">0{i + 1}</span>
           <Icon name={s.icon} size={48} />
           <div>
@@ -88,7 +88,7 @@ const titles = {
         <input type="search" placeholder={t.search} data-project-search />
       </label>
     </div>
-    <div class="project-grid">
+    <div class="project-grid" data-reveal-group>
       {projects.map((p) => (
         <ProjectCard project={p} lang={lang} />
       ))}
@@ -101,7 +101,7 @@ const titles = {
 {project && (
   <>
     <article class="container project-detail">
-      <div class="detail-cover">
+      <div class="detail-cover" data-reveal="fade-right" data-reveal-duration="900">
         <Image
           src={project.image}
           alt={project[lang].alt}
@@ -114,22 +114,22 @@ const titles = {
         </span>
       </div>
       <div class="detail-columns">
-        <aside>
+        <aside data-reveal="fade-left">
           <span class="eyebrow">{t.services}</span>
           <p>{project[lang].category}</p>
           <span class="eyebrow">{t.proposal}</span>
           <p>{t.demo}</p>
         </aside>
         <div>
-          <h2>{t.context}</h2>
-          <p>{project[lang].context}</p>
-          <h2>{t.approach}</h2>
-          <p>{project[lang].approach}</p>
-          <div class="note">
+          <h2 data-reveal="fade-up">{t.context}</h2>
+          <p data-reveal="fade-up">{project[lang].context}</p>
+          <h2 data-reveal="fade-up">{t.approach}</h2>
+          <p data-reveal="fade-up">{project[lang].approach}</p>
+          <div class="note" data-reveal="fade-up">
             <Icon name="shield" />
             {t.projectPrivacy}
           </div>
-          <a class="text-link" href={route(lang, 'projects')}>
+          <a class="text-link" data-reveal="fade-up" href={route(lang, 'projects')}>
             ← {t.backProjects}
           </a>
         </div>
@@ -141,24 +141,28 @@ const titles = {
 {page === 'about' && (
   <>
     <section class="container about-editorial">
-      <div class="editorial-image">
+      <div class="editorial-image" data-reveal="fade-right" data-reveal-duration="900">
         <Image src={facade} alt={projects[0][lang].alt} widths={[800, 1400]} sizes="90vw" />
         <span class="image-label">{t.illustration}</span>
       </div>
-      <div class="about-statement">
-        <span class="eyebrow">SENTINEL / {t.proposal}</span>
-        <p>{t.aboutText}</p>
+      <div class="about-statement" data-reveal-group>
+        <span class="eyebrow" data-reveal="fade-up">
+          SENTINEL / {t.proposal}
+        </span>
+        <p data-reveal="fade-left">{t.aboutText}</p>
       </div>
-      <div class="note">{t.aboutPending}</div>
+      <div class="note" data-reveal="fade-up">
+        {t.aboutPending}
+      </div>
     </section>
     <section class="section container">
-      <div class="section-heading">
+      <div class="section-heading" data-reveal="fade-up">
         <h2>{t.processTitle}</h2>
         <span class="eyebrow">{t.proposal}</span>
       </div>
-      <div class="process-grid">
+      <div class="process-grid" data-reveal-group>
         {t.processSteps.map((s, i) => (
-          <article class="reveal">
+          <article data-reveal="fade-scale">
             <span>0{i + 1}</span>
             <h3>{s}</h3>
             <p>{t.processText[i]}</p>
@@ -171,7 +175,7 @@ const titles = {
 )}
 {page === 'contact' && (
   <section class="container contact-layout">
-    <div class="contact-aside">
+    <div class="contact-aside" data-reveal="fade-up">
       <Icon name="shield" size={68} />
       <h2>{t.contactUs}</h2>
       <p>{t.contactPending}</p>
@@ -192,8 +196,10 @@ const titles = {
       <p>{t.formNote}</p>
     </div>
     <div class="contact-form">
-      <h2>{t.formTitle}</h2>
-      <p>{t.formNote}</p>
+      <h2 data-reveal="fade-up">{t.formTitle}</h2>
+      <p data-reveal="fade-up" data-reveal-delay="100">
+        {t.formNote}
+      </p>
       <form data-demo-form data-success={t.formSuccess} data-error={t.formError} method="dialog">
         <div class="form-grid">
           <label>

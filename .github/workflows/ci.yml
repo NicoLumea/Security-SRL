@@ -8,6 +8,7 @@ on:
         feature/security-concept-gallery,
         fix/repository-structure,
         feature/cloudflare-preview-setup,
+        feature/sentinel-scroll-animations,
       ]
 permissions:
   contents: read

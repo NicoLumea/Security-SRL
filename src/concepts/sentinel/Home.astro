@@ -103,16 +103,20 @@ const featured = site.featuredOrder
   </a>
 </div>
 <section class="section container" id="solutions">
-  <div class="section-heading reveal">
-    <div>
+  <div class="section-heading" data-reveal-group>
+    <div data-reveal="fade-up">
       <span class="eyebrow">{t.servicesEyebrow}</span>
       <h2>{t.servicesTitle}</h2>
     </div>
-    <p>{t.servicesIntro}</p>
+    <p data-reveal="fade-up">{t.servicesIntro}</p>
   </div>
-  <div class="services-grid">
+  <div class="services-grid" data-reveal-group>
     {services.map((s, i) => (
-      <a class="service-card reveal" href={`${route(lang, 'services')}#${s.id}`}>
+      <a
+        class="service-card"
+        data-reveal="fade-bottom-right"
+        href={`${route(lang, 'services')}#${s.id}`}
+      >
         <div class="service-top">
           <Icon name={s.icon} size={35} />
           <span>0{i + 1}</span>
@@ -126,18 +130,25 @@ const featured = site.featuredOrder
 </section>
 <section class="projects-section section">
   <div class="container">
-    <div class="section-heading reveal">
-      <div>
+    <div class="section-heading" data-reveal-group>
+      <div data-reveal="fade-up">
         <span class="eyebrow">{t.projectsEyebrow}</span>
         <h2>{t.projectsTitle}</h2>
       </div>
-      <a class="text-link" href={route(lang, 'projects')}>
+      <a
+        class="text-link"
+        data-reveal="fade-up"
+        data-reveal-delay="200"
+        href={route(lang, 'projects')}
+      >
         {t.allProjects}
         <Icon name="diagonal" size={19} />
       </a>
     </div>
-    <p class="section-intro">{t.projectsIntro}</p>
-    <div class="featured-track" data-featured>
+    <p class="section-intro" data-reveal="fade-up" data-reveal-delay="100">
+      {t.projectsIntro}
+    </p>
+    <div class="featured-track" data-featured data-reveal-group>
       {featured.map((p) => (
         <ProjectCard project={p} lang={lang} />
       ))}
@@ -165,7 +176,7 @@ const featured = site.featuredOrder
   </div>
 </section>
 <section class="section container about-preview">
-  <div class="about-image reveal">
+  <div class="about-image" data-reveal="fade-right" data-reveal-duration="900">
     <Image
       src={surveillance}
       alt={projects[1][lang].alt}
@@ -174,11 +185,13 @@ const featured = site.featuredOrder
     />
     <span class="image-label">{t.illustration}</span>
   </div>
-  <div class="about-content reveal">
-    <span class="eyebrow">{t.aboutEyebrow}</span>
-    <h2>{t.aboutTitle}</h2>
-    <p>{t.aboutText}</p>
-    <a class="text-link" href={route(lang, 'about')}>
+  <div class="about-content" data-reveal-group>
+    <div data-reveal="fade-left">
+      <span class="eyebrow">{t.aboutEyebrow}</span>
+      <h2>{t.aboutTitle}</h2>
+      <p>{t.aboutText}</p>
+    </div>
+    <a class="text-link" data-reveal="fade-up" data-reveal-delay="150" href={route(lang, 'about')}>
       {t.moreAbout}
       <Icon name="diagonal" size={20} />
     </a>
