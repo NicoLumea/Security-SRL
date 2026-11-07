@@ -1,0 +1,77 @@
+/* Loaded only by the Sentinel layout; no hidden state without successful JS. */
+.sentinel #main {
+  overflow-x: clip;
+}
+.sentinel [data-reveal] {
+  --reveal-distance: 32px;
+  --reveal-x: 0px;
+  --reveal-y: var(--reveal-distance);
+  --reveal-scale: 1;
+  --reveal-duration: 800ms;
+  --reveal-delay: 0ms;
+  --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sentinel [data-reveal='fade-right'] {
+  --reveal-x: var(--reveal-distance);
+  --reveal-y: 0px;
+}
+.sentinel [data-reveal='fade-left'] {
+  --reveal-x: calc(-1 * var(--reveal-distance));
+  --reveal-y: 0px;
+}
+.sentinel [data-reveal='fade-bottom-right'] {
+  --reveal-x: var(--reveal-distance);
+}
+.sentinel [data-reveal='fade-scale'] {
+  --reveal-y: 0px;
+  --reveal-scale: 0.985;
+}
+.sentinel [data-reveal-state='hidden'] {
+  opacity: 0;
+  translate: var(--reveal-x) var(--reveal-y);
+  scale: var(--reveal-scale);
+  transition: none;
+}
+.sentinel [data-reveal-state='entering'] {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  transition-property: opacity, translate, scale;
+  transition-duration: var(--reveal-duration);
+  transition-delay: var(--reveal-delay);
+  transition-timing-function: var(--reveal-ease);
+  will-change: opacity, translate;
+}
+/* Focus bypasses the animation synchronously, even before the focus handler. */
+.sentinel [data-reveal]:focus-within {
+  opacity: 1;
+  translate: none;
+  scale: 1;
+  transition: none;
+}
+.sentinel .service-top > svg {
+  transition:
+    color 300ms,
+    translate 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sentinel .service-card:is(:hover, :focus-visible) .service-top > svg {
+  translate: 0 -2px;
+}
+@media (max-width: 700px) {
+  .sentinel [data-reveal] {
+    --reveal-distance: 22px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sentinel [data-reveal] {
+    opacity: 1 !important;
+    translate: none !important;
+    scale: 1 !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+  .sentinel .service-top > svg {
+    translate: none !important;
+    transition: none !important;
+  }
+}

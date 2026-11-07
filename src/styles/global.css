@@ -250,20 +250,6 @@ a svg {
   padding: 7px 10px;
   color: #eeece8;
 }
-.reveal {
-  opacity: 1;
-}
-.reveal.ready {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.7s,
-    transform 0.7s;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
 [hidden] {
   display: none !important;
 }
@@ -372,10 +358,6 @@ input[type='checkbox'] {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
-  }
-  .reveal.ready {
-    opacity: 1;
-    transform: none;
   }
   .hero-video {
     display: none;

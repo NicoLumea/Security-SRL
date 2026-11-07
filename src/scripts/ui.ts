@@ -19,25 +19,6 @@ if (header) {
   );
   update();
 }
-// Content is visible without JS; never animate elements already in the viewport.
-if (!reduced.matches && 'IntersectionObserver' in window) {
-  const observer = new IntersectionObserver(
-    (entries) =>
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      }),
-    { threshold: 0.08 },
-  );
-  document.querySelectorAll('.reveal').forEach((el) => {
-    if (el.getBoundingClientRect().top > window.innerHeight) {
-      el.classList.add('ready');
-      observer.observe(el);
-    }
-  });
-}
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape')
     document.querySelectorAll('details[open]').forEach((el) => el.removeAttribute('open'));
