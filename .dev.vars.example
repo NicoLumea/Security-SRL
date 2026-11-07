@@ -1,0 +1,4 @@
+# Copy to .dev.vars.preview; never commit the populated file.
+# Preview gate only. These are not staff credentials.
+PREVIEW_USER=
+PREVIEW_PASSWORD=
