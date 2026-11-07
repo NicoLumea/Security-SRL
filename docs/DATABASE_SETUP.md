@@ -6,12 +6,7 @@ Foreign keys, allowed roles/statuses, unique localized slugs and publication app
 
 The migration was exercised with Node's SQLite engine. Remote D1 compatibility and binding operations still need verification in the actual preview account.
 
-For Phase 3, after creating the preview database and adding its exact binding:
-
-```sh
-npx wrangler d1 migrations apply security-srl-preview-db --env preview --local
-npx wrangler d1 migrations apply security-srl-preview-db --env preview --remote
-```
+No database is required for this presentation. For Phase 3, create an explicitly approved staging database and add its binding under `previews.d1_databases`. Prepare a separate migration configuration targeting that exact database before running local or remote D1 migrations. The old `--env preview` commands no longer apply: branch previews use the `previews` block under the existing Worker, not a separately named Worker environment.
 
 Inspect the resource name and account before the remote operation. Export/backup before destructive changes. Never repoint preview to production. Create separate migration approval and backup procedures for production; no production migration command should run from this presentation CI.
 

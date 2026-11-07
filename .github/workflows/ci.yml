@@ -2,7 +2,13 @@ name: Verify concept presentation
 on:
   pull_request:
   push:
-    branches: [main, feature/security-concept-gallery, fix/repository-structure]
+    branches:
+      [
+        main,
+        feature/security-concept-gallery,
+        fix/repository-structure,
+        feature/cloudflare-preview-setup,
+      ]
 permissions:
   contents: read
 jobs:
