@@ -244,7 +244,7 @@ test('English uses the same motion and gallery remains isolated', async ({ page 
   await expect(page.locator('[data-reveal], [data-reveal-state]')).toHaveCount(0);
   await expect(page.locator('body')).not.toHaveAttribute('data-reveals', 'ready');
   await expect(page.locator('.concept-card')).toHaveCount(4);
-  await expect(page.locator('.concept-action[href]')).toHaveCount(1);
+  await expect(page.locator('.concept-action[href]')).toHaveCount(2);
 });
 
 test('page lifecycle cleanup restores visibility and reinitializes on back/forward restore', async ({
