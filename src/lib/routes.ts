@@ -7,3 +7,7 @@ export function galleryRoute(lang: Locale) {
   return lang === 'ro' ? '/' : '/en/';
 }
 export { slugify } from './slug';
+
+export function conceptRoute(lang: Locale, concept: string) {
+  return concept === 'sentinel' ? route(lang) : `/concepts/${concept}/${lang}/`;
+}

@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { concepts } from '../data/content';
 import { copy, type Locale } from '../i18n';
-import { route, galleryRoute } from '../lib/routes';
+import { conceptRoute, galleryRoute } from '../lib/routes';
 import Icon from '../components/Icon.astro';
 import facade from '../assets/facade.jpg';
 import '../styles/gallery.css';
@@ -151,7 +151,7 @@ const t = copy[lang];
             </div>
             <p>{c[lang].description}</p>
             {c.available ? (
-              <a href={route(lang)} class="concept-action">
+              <a href={conceptRoute(lang, c.id)} class="concept-action">
                 {t.explore}
                 <span class="circle-arrow">
                   <Icon name="diagonal" size={20} />

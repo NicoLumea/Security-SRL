@@ -1,0 +1,336 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Switcher from '../../presentation/Switcher.astro';
+import Brand from '../../components/Brand.astro';
+import Icon from '../../components/Icon.astro';
+import { copy, type Locale } from '../../i18n';
+import { services, projects } from '../../data/content';
+import { conceptRoute, galleryRoute } from '../../lib/routes';
+import surveillance from '../../assets/surveillance.jpg';
+import '../../styles/vanguard.css';
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+const other = lang === 'ro' ? 'en' : 'ro';
+const nav = [
+  ['services', t.services],
+  ['projects', t.projects],
+  ['about', t.about],
+  ['contact', t.contact],
+];
+---
+
+<Base
+  lang={lang}
+  title={`Vanguard · ${t.heroTitle}`}
+  description={t.heroDescription}
+  alternate={conceptRoute(other, 'vanguard')}
+  bodyClass="vanguard-page"
+>
+  <Switcher lang={lang} active="vanguard" />
+  <header class="v-header">
+    <div class="v-wrap v-nav-row">
+      <Brand href={conceptRoute(lang, 'vanguard')} />
+      <nav class="v-desktop-nav" aria-label={t.menu}>
+        {nav.map(([id, label]) => (
+          <a href={`#${id}`}>{label}</a>
+        ))}
+      </nav>
+      <a
+        class="v-language"
+        href={conceptRoute(other, 'vanguard')}
+        lang={other}
+        aria-label={lang === 'ro' ? 'Switch to English' : 'Schimbă în română'}
+      >
+        {lang.toUpperCase()} / {other.toUpperCase()}
+      </a>
+      <details class="v-mobile-menu">
+        <summary aria-label={t.menu}>
+          <span>{t.menu}</span>
+          <Icon name="plus" size={20} />
+        </summary>
+        <nav aria-label={t.menu}>
+          {nav.map(([id, label]) => (
+            <a href={`#${id}`}>
+              {label}
+              <Icon name="diagonal" size={18} />
+            </a>
+          ))}
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="main">
+    <section class="v-hero v-wrap" aria-labelledby="v-title">
+      <div class="v-hero-top">
+        <span class="v-kicker">02 / VANGUARD</span>
+        <span class="v-kicker">BOLD PERSPECTIVE</span>
+      </div>
+      <div class="v-hero-grid">
+        <div class="v-hero-copy">
+          <h1 id="v-title">
+            {lang === 'ro' ? (
+              <>
+                Securitatea
+                <br />
+                începe cu
+                <br />
+                <span>încrederea.</span>
+              </>
+            ) : (
+              <>
+                Security
+                <br />
+                begins with
+                <br />
+                <span>trust.</span>
+              </>
+            )}
+          </h1>
+          <p>{t.heroDescription}</p>
+          <div class="v-actions">
+            <a class="v-button" href="#contact">
+              {t.contactUs}
+              <Icon name="diagonal" />
+            </a>
+            <a class="v-link" href="#projects">
+              {t.viewProjects}
+              <Icon />
+            </a>
+          </div>
+        </div>
+        <figure class="v-hero-media">
+          <Image
+            src={surveillance}
+            alt={projects[1][lang].alt}
+            widths={[480, 800, 1200]}
+            sizes="(max-width: 760px) 100vw, 48vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <span class="v-media-arrow" aria-hidden="true">
+            ↗
+          </span>
+          <figcaption>
+            <span>{t.illustration}</span>
+            <span aria-hidden="true">02 — V</span>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="v-hero-bottom">
+        <span>{t.proposal}</span>
+        <a href="#services">
+          {t.scroll}
+          <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </section>
+    <section id="services" class="v-section v-solutions" aria-labelledby="v-services-title">
+      <div class="v-wrap">
+        <div class="v-section-head" data-v-enter>
+          <span class="v-kicker">{t.servicesEyebrow}</span>
+          <h2 id="v-services-title">{t.servicesTitle}</h2>
+          <p>{t.servicesIntro}</p>
+        </div>
+        <div class="v-service-list">
+          {services.map((s, i) => (
+            <article class="v-service" data-v-enter>
+              <span class="v-index">0{i + 1}</span>
+              <Icon name={s.icon} size={32} />
+              <div>
+                <h3>{s[lang].title}</h3>
+                <p>{s[lang].text}</p>
+                <details>
+                  <summary>
+                    {t.details}
+                    <span aria-hidden="true">+</span>
+                  </summary>
+                  <p>{s[lang].detail}</p>
+                </details>
+              </div>
+              <a
+                class="v-service-link"
+                href="#contact"
+                aria-label={`${t.contactUs}: ${s[lang].title}`}
+              >
+                <Icon name="diagonal" />
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+    <section id="projects" class="v-section v-wrap" aria-labelledby="v-projects-title">
+      <div class="v-section-head" data-v-enter>
+        <span class="v-kicker">{t.projectsEyebrow}</span>
+        <h2 id="v-projects-title">{t.projectsTitle}</h2>
+        <p>{t.projectsIntro}</p>
+      </div>
+      <div class="v-project-grid">
+        {projects.map((project, i) => (
+          <article class="v-project" data-v-enter>
+            <div class="v-project-image">
+              <Image
+                src={project.image}
+                alt={project[lang].alt}
+                widths={[480, 800, 1200]}
+                sizes="(max-width: 760px) 100vw, 48vw"
+                loading="lazy"
+                style={`object-position:${project.position}`}
+              />
+              <span>{t.demo}</span>
+            </div>
+            <div class="v-project-meta">
+              <span>
+                0{i + 1} / {project[lang].category}
+              </span>
+              <Icon name="diagonal" />
+            </div>
+            <h3>{project[lang].title}</h3>
+            <p>{project[lang].description}</p>
+            <details>
+              <summary>
+                {t.projectDetail}
+                <span aria-hidden="true">+</span>
+              </summary>
+              <div class="v-project-detail">
+                <h4>{t.context}</h4>
+                <p>{project[lang].context}</p>
+                <h4>{t.approach}</h4>
+                <p>{project[lang].approach}</p>
+              </div>
+            </details>
+          </article>
+        ))}
+      </div>
+      <p class="v-disclaimer">{t.projectDisclaimer}</p>
+    </section>
+    <section id="about" class="v-section v-about" aria-labelledby="v-about-title">
+      <div class="v-wrap">
+        <div class="v-about-grid">
+          <div data-v-enter>
+            <span class="v-kicker">{t.aboutEyebrow}</span>
+            <h2 id="v-about-title">{t.aboutTitle}</h2>
+            <span class="v-about-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </div>
+          <div class="v-about-copy" data-v-enter>
+            <p>{t.aboutIntro}</p>
+            <p>{t.aboutText}</p>
+            <p class="v-disclaimer">{t.aboutPending}</p>
+          </div>
+        </div>
+        <div class="v-process">
+          {t.processSteps.map((step, i) => (
+            <article data-v-enter>
+              <span class="v-index">0{i + 1}</span>
+              <h3>{step}</h3>
+              <p>{t.processText[i]}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="v-section v-wrap" aria-labelledby="v-contact-title">
+      <div class="v-contact-grid">
+        <div data-v-enter>
+          <span class="v-kicker">04 / {t.contact}</span>
+          <h2 id="v-contact-title">{t.contactTitle}</h2>
+          <p>{t.contactIntro}</p>
+          <p class="v-disclaimer">{t.contactPending}</p>
+        </div>
+        <div class="v-form-panel">
+          <h3>{t.formTitle}</h3>
+          <p id="v-form-note">{t.formNote}</p>
+          <form
+            data-demo-form
+            data-success={t.formSuccess}
+            data-error={t.formError}
+            method="dialog"
+            aria-describedby="v-form-note"
+          >
+            <div class="v-form-grid">
+              <label>
+                {t.name}
+                <input
+                  required
+                  minlength="2"
+                  maxlength="100"
+                  autocomplete="off"
+                  data-field="name"
+                />
+              </label>
+              <label>
+                {t.email}
+                <input
+                  type="email"
+                  required
+                  maxlength="254"
+                  autocomplete="off"
+                  data-field="email"
+                />
+              </label>
+            </div>
+            <label>
+              {t.message}
+              <textarea
+                rows="4"
+                required
+                minlength="10"
+                maxlength="3000"
+                data-field="message"
+              ></textarea>
+            </label>
+            <label class="v-check">
+              <input type="checkbox" required data-field="consent" />
+              {t.consent}
+            </label>
+            <button class="v-button" type="button" data-demo-submit>
+              {t.submit}
+              <Icon name="diagonal" />
+            </button>
+            <p class="form-feedback" role="status" tabindex="-1"></p>
+            <noscript>
+              <p>{t.noJs}</p>
+            </noscript>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="v-footer">
+    <div class="v-wrap">
+      <div class="v-footer-top">
+        <Brand href={conceptRoute(lang, 'vanguard')} />
+        <a href="#main">
+          {t.backHome}
+          <span aria-hidden="true">↑</span>
+        </a>
+      </div>
+      <p>{t.demoNotice}</p>
+      <div class="v-legal">
+        <details>
+          <summary>{t.privacy}</summary>
+          <p>{t.privacyText}</p>
+          <p>{t.legalNote}</p>
+        </details>
+        <details>
+          <summary>{t.cookies}</summary>
+          <p>{t.cookieText}</p>
+        </details>
+        <button type="button" data-open-consent>
+          {t.preferences}
+        </button>
+      </div>
+      <div class="v-footer-bottom">
+        <span>© {new Date().getFullYear()} SECURITY SRL</span>
+        <a href={galleryRoute(lang)}>{t.gallery} ↗</a>
+        <span>VANGUARD / 02</span>
+      </div>
+    </div>
+  </footer>
+  <script>
+    import '../../scripts/vanguard';
+  </script>
+</Base>

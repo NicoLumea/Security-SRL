@@ -145,7 +145,7 @@ export const concepts = [
     id: 'vanguard',
     number: '02',
     name: 'Vanguard',
-    available: false,
+    available: true,
     ro: {
       subtitle: 'Bold Perspective',
       description:
