@@ -12,8 +12,8 @@ export default defineConfig({
   webServer: process.env.TEST_BASE_URL
     ? undefined
     : {
-        // Exercise the exact production assets already built by CI.
-        command: 'npm run preview:static',
+        // Exercise built assets through the real Worker, including production CSP headers.
+        command: 'npm run preview:worker -- --ip 127.0.0.1 --port 4321',
         url: 'http://127.0.0.1:4321',
         reuseExistingServer: false,
         stdout: 'pipe',

@@ -11,6 +11,17 @@ const files = walk(root).filter((f) => f.endsWith('.html'));
 let checked = 0;
 for (const file of files) {
   const html = readFileSync(file, 'utf8');
+  for (const script of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+    const attributes = script[1];
+    if (/type=["']application\/(?:ld\+)?json["']/i.test(attributes)) continue;
+    assert.match(
+      attributes,
+      /\bsrc=["']\//,
+      `Executable script must be same-origin and external for Worker CSP: ${file}`,
+    );
+    assert.equal(script[2].trim(), '', `Inline script blocked by Worker CSP: ${file}`);
+  }
+
   assert.match(html, /<meta[^>]+name="robots"[^>]+noindex/, `noindex: ${file}`);
   assert.equal((html.match(/<h1[ >]/g) || []).length, 1, `one h1: ${file}`);
   for (const m of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
