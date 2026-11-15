@@ -1,101 +1,74 @@
-> Current production-unlock proposal: see [PRODUCTION_REVIEW_ACCESS.md](PRODUCTION_REVIEW_ACCESS.md). The locked-production descriptions below document the earlier preview setup. This proposal changes only future production review configuration; existing Preview settings remain unchanged.
+# Cloudflare public website and branch previews
 
-# Cloudflare branch previews on security-srl
+The existing Worker is `security-srl`. Astro builds `dist/`; `worker/index.ts` serves public GET/HEAD requests through ASSETS. There is no website-wide Basic Authentication, password configuration or deployment-lock check. Staff/API/dashboard routes still fail closed; no administrative authentication or authorization is removed.
 
-## Architecture and protection
+## Configuration
 
-The repository contains one application: Astro produces `dist/` and `worker/index.ts` gates every static asset through `ASSETS`. The text `Deployment is locked.` comes from this application's first runtime guard, not a separate placeholder in the repository. Dashboard deployment history was not inspected; the live deployment's creation procedure cannot be established from source alone.
+- `workers_dev=true`: enable the existing main workers.dev subdomain when the approved configuration is applied.
+- `preview_urls=true`: retain version URL support.
+- `previews` retains branch Preview settings, observability and empty D1/R2 bindings. No new Worker is created and no production data bindings are copied.
+- Public website access does not read ENVIRONMENT, DEPLOYMENT_LOCKED, PREVIEW_USER/PASSWORD or PRODUCTION_USER/PASSWORD. Old values cannot re-enable the removed application gate.
+- Existing noindex metadata, robots.txt and cache/security headers are preserved. Public access does not change search indexing or turn the demo contact form into a live service.
 
-The existing Worker is `security-srl`. Top-level variables remain `ENVIRONMENT=locked` and `DEPLOYMENT_LOCKED=true`; even valid preview credentials cannot unlock that configuration. `workers_dev=false` is retained. No production variables, secrets, domains or deployments are changed by this PR.
+## Existing Cloudflare build workflow
 
-Branch previews use `previews.vars` with `ENVIRONMENT=preview` and `DEPLOYMENT_LOCKED=false`. They still require their own `PREVIEW_USER` and `PREVIEW_PASSWORD`. Missing/empty secrets or a password shorter than 24 characters return 503; invalid credentials return 401. Every asset passes through the gate; successful responses include noindex, no-store and the existing security headers. Staff/API routes remain unavailable. The three unfinished concepts remain unavailable.
+Verify these settings in the account before approving production release:
 
-Wrangler 4.158.0 from the lockfile supports `wrangler preview` (minimum 4.135.0), so no dependency upgrade or Astro SSR adapter is needed. Static output, Worker entry, asset binding, compatibility date and security code are unchanged. The previous separately named `env.preview` / `env.production` targets are retired from config; this does not delete any cloud resource. Assets and compatibility settings stay at the top level, as required by Worker Previews.
+| Setting | Value |
+| --- | --- |
+| Worker | `security-srl` |
+| Repository | `NicoLumea/Security-SRL` |
+| Production branch | `main` |
+| Build | `npm run build` |
+| Production command | `npx wrangler versions upload` (stage only; no auto-promotion) |
+| Non-production command | `npx wrangler preview` |
 
-## Required dashboard setup
+GitHub Actions runs checks and a Worker dry run only. It does not deploy. Feature previews must use Worker Previews, not a production `wrangler deploy` command. A branch Preview is separate from the active production version and uses Preview configuration.
 
-In **Workers & Pages → security-srl → Settings → Builds**, verify:
+Main URL: https://security-srl.shy-wildflower-e44e.workers.dev/
 
-| Setting                       | Value                                                                              |
-| ----------------------------- | ---------------------------------------------------------------------------------- |
-| Repository                    | NicoLumea/Security-SRL                                                             |
-| Production branch             | main (unchanged)                                                                   |
-| Root directory                | repository root                                                                    |
-| Build command                 | `npm run build` (unchanged)                                                        |
-| Production deployment command | `npx wrangler versions upload` (unchanged; uploads a version, does not promote it) |
-| Preview command               | `npx wrangler preview`                                                             |
-| Preview builds                | enabled for non-main branches                                                      |
-| Node.js                       | 24                                                                                 |
+PR #5 Preview, as returned by Cloudflare's PR comment: https://feature-cloudflare-deployment-unlock-security-srl.shy-wildflower-e44e.workers.dev/
 
-If the **Set up Worker Previews** banner appears, review its one-time migration before selecting **Switch to Worker Previews**. Cloudflare documents this switch as irreversible. It changes the preview model, not production variables. Do not substitute `wrangler deploy` or `wrangler versions deploy`.
+Existing Sentinel branch Preview: https://feature-sentinel-hero-video-integration-security-srl.shy-wildflower-e44e.workers.dev/concepts/sentinel/ro/
 
-In **Domains → Worker URL**, enable **Preview** if disabled. This enables preview hostnames separately from production. `preview_urls=true` records that desired setting in Wrangler; do not deploy production just to apply it.
+Each Preview serves the code last deployed to that branch. Updating PR #5 does not rewrite the older Sentinel branch Preview. To remove the old gate there too, redeploy it with approved public-access code after the PR is accepted, or review the Sentinel page on PR #5's Preview now. Do not point feature previews at production or bypass deployment review.
 
-In **Settings → Variables and Secrets → Previews Base**, add `PREVIEW_USER` and `PREVIEW_PASSWORD` as **secrets**, using a unique ASCII username and random ASCII password of at least 24 characters. Use separate preview credentials. Never copy production secrets/bindings or put these values in GitHub/source. D1/R2 arrays are explicitly empty; no database or bucket is needed. Check that Previews Base has no unintended data/service bindings.
+## Dashboard settings after approval
 
-Previews do not inherit production variables/secrets. New previews receive Previews Base secrets; existing previews need their own secret update if created before those secrets were set. With an already authenticated account, the corresponding commands are:
+1. Sign in securely at https://dash.cloudflare.com/ (or use Wrangler OAuth with `npx wrangler login` on a trusted computer). No tokens/passwords belong in chat, source or PRs.
+2. Open `security-srl` → Settings → Builds. Confirm main-only production staging and independent Preview builds as above. Do not use an automatic production deploy command before review.
+3. After approval and merge, build/stage the approved main version, inspect its commit/version, and explicitly promote that version to production. This task does not perform merge or promotion.
+4. Under Settings → Domains & Routes, enable the existing main workers.dev route if disabled. Keep Preview URLs enabled. `workers_dev=true` records the desired main-subdomain setting, but live dashboard state must be verified.
+5. No visitor secrets are needed. Old PREVIEW_USER/PASSWORD and PRODUCTION_USER/PASSWORD secrets, plus ENVIRONMENT/DEPLOYMENT_LOCKED variables, may be removed from Production, Previews Base and individual Previews once old protected deployments are retired. They are ignored by new code; do not delete anything belonging to future staff authentication. Dashboard secret/variable changes can publish a new configuration, so include cleanup in the approved release rather than doing it prematurely.
+6. If a separately configured Cloudflare Access policy protects an entire public hostname, remove only that visitor-wide policy after confirming its scope. Preserve any admin-only Access policies. No such policy was verified in this session; do not assume one exists.
+7. Verify homepage, Romanian/English Sentinel routes and assets return 200 without Authorization and without WWW-Authenticate. Confirm missing pages still return 404, staff/API/dashboard return 403, and public POST requests remain 405. Check video playback, navigation and all requested viewport widths.
 
-```sh
-npx wrangler preview base-config secret put PREVIEW_USER
-npx wrangler preview base-config secret put PREVIEW_PASSWORD
-# For an existing preview, use its actual name from Cloudflare:
-npx wrangler preview secret put PREVIEW_USER --name <actual-preview-name>
-npx wrangler preview secret put PREVIEW_PASSWORD --name <actual-preview-name>
+## Local verification
+
+No `.dev.vars` or credentials are necessary:
+
 ```
-
-Enter values at secure prompts; do not pass secrets inline. No production `wrangler secret put` command is needed.
-
-## Build and preview
-
-Push a development branch after the dashboard setup, or retry its preview build. Cloudflare runs the build then `npx wrangler preview` against that branch's configuration. The command derives the preview name from the branch and targets `security-srl`. Do not pass `--env preview`, which selects a separate named Worker environment.
-
-For an already authenticated local checkout on a development branch:
-
-```sh
 npm ci
-npm run deploy:preview
+npm run check
+npm run lint
+npm test
+npm run build
+npm run verify:build
+npm run validate:worker
+npm run test:runtime
+npm run test:e2e
 ```
 
-That script builds and runs `wrangler preview`; it does not deploy production. Use only a URL actually returned by Cloudflare. Do not invent a hostname.
+`npm run preview:worker` serves the real Worker locally. `tests/runtime/public-access.test.ts` exercises public pages, images, exact MP4 bytes, stale lock/secret bindings, HEAD/404, and preserved staff/API/mutation restrictions in workerd. Existing browser tests cover navigation, responsive layout, video and scroll behavior. Runtime tests use local assets and are not proof of the live dashboard configuration.
 
-## Verification before sharing
+## Original restriction locations
 
-1. Confirm the preview build uses the intended branch and commit, then copy its actual Preview URL.
-2. Without credentials, verify `/`, `/favicon.svg` and an actual `/_astro/` asset require authentication.
-3. With preview credentials, verify `/`, `/en/`, `/concepts/sentinel/ro/`, `/concepts/sentinel/en/`, portfolio lists/details and demo contact/navigation. Confirm noindex and no-store headers.
-4. Confirm `/admin/` and `/api/contact` remain forbidden, and the existing production URL still returns `Deployment is locked.`
-5. Run the browser/accessibility suite against the local production build. Live password-protected browser testing also needs the preview credentials; local browser results are not proof of live Cloudflare behavior.
+- `worker/index.ts`: first-request lock guard and visitor Basic-auth middleware.
+- `wrangler.jsonc`: locked production vars, preview overrides, and `workers_dev=false` on main.
+- `package.json`: local preview script injected lock-bypass flags.
+- `.dev.vars.example`: visitor credential template.
+- Earlier config/security/runtime tests and setup docs enforced/described these gates; those relevant to current setup have been replaced.
 
-For local perimeter checks only, copy `.dev.vars.example` to `.dev.vars`, set local-only credentials, then `npm run build && npm run preview:worker`. This uses `wrangler dev --local` and explicit local preview variables. It does not create a cloud preview.
+Cloudflare account authentication was unavailable during preparation (Wrangler unauthenticated; dashboard at sign-in), so live build settings, Access policies and route toggles were not edited. Production is not claimed public until an approved deployment has been observed.
 
-`npm run validate:worker` is a bundling/configuration dry run of the locked default Worker. The unit suite additionally exercises production and branch-preview variables from the actual config. `wrangler preview` has no dry-run option in 4.158.0. Only a successful cloud build and authenticated URL test establish live preview readiness.
-
-## Diagnosing `Private preview is not configured.`
-
-The only application source of this response is `worker/index.ts`, inside the exported `fetch(request, env)` handler. The request passes the production lock first, then validates the runtime secrets, then checks HTTP Basic authorization, and finally calls `env.ASSETS.fetch(request)`. This is static Astro output, not Astro SSR; no adapter, `process.env`, build-time secret injection or `cloudflare:workers` import is required. Secret values are read fresh from the handler's `env` argument on each request.
-
-The configuration guard rejects three conditions: an empty/missing `PREVIEW_USER`, an empty/missing `PREVIEW_PASSWORD`, or `PREVIEW_PASSWORD.length < 24`. Encrypted secret names appearing in the dashboard do **not** establish that their values meet this requirement. A 23-character password reproduces the same 503; a 24-character password passes configuration validation. Do not lower this requirement or remove authentication.
-
-The public response remains generic. Private preview console logs now identify the rejected condition using only a fixed code:
-
-| Log code                                    | Meaning and next action                                                                                                                                    |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `[preview-auth] PREVIEW_USER_MISSING`       | The active runtime received no non-empty username. Verify the exact secret name and update it on this individual preview.                                  |
-| `[preview-auth] PREVIEW_PASSWORD_MISSING`   | The active runtime received no non-empty password. Verify the exact secret name and update it on this individual preview.                                  |
-| `[preview-auth] PREVIEW_PASSWORD_TOO_SHORT` | Both values reached the runtime, but the password failed the minimum length. Set a unique random ASCII password of at least 24 characters on this preview. |
-
-No values, actual lengths, request headers or environment dumps are logged. No debug endpoint is provided. Console log persistence is enabled **only under `previews.observability`**, with invocation logs disabled. Production observability and protection are unchanged.
-
-Open **security-srl → Previews → feature-cloudflare-preview-setup → Observability**, reload the branch preview URL, and inspect the new `[preview-auth]` event. Check that its deployment matches the latest PR commit. If sharing evidence, share only that fixed code and deployment ID, never full request logs or credentials. `wrangler tail` does not currently support Worker Previews; use the individual preview's dashboard logs.
-
-If a secret must be corrected, change it on the existing preview and separately in Previews Base for future previews. Confirm the resulting deployment is active. A new deployment does not prove a password is long enough, and changing Base does not change an existing preview. If all values are known to be valid but a missing-binding code persists, inspect the active deployment's binding **names and types** and confirm the Worker/preview selection before treating this as a Cloudflare binding issue.
-
-Wrangler 4.158.0's `assemblePreviewDeploymentSettings` reads the latest deployment and carries forward its `secret_text` bindings as `inherit` when no same-name override is supplied. This repository has no `PREVIEW_USER`/`PREVIEW_PASSWORD` entries in `previews.vars`, no `define` replacement, and no `--secrets-file` or same-name `--var` arguments. Therefore ordinary branch deployment is not configured to delete or overwrite these secrets. This code inspection does not establish which secret values the live account actually has.
-
-After correction, an unauthenticated request should return **401** with `WWW-Authenticate: Basic`, followed by **200** for a valid login. A continued 503 configuration error is not a successful preview login. Check the stable branch URL and the latest unique deployment URL to distinguish an old deployment from the current one.
-
-## Actual Workers runtime regression tests
-
-Run `npm run build && npm run validate:worker && npm run test:runtime`. The tests execute Wrangler's bundled Worker in local `workerd` through Miniflare and serve the real `dist/` files with the configured ASSETS binding and Worker-first routing. They cover missing/empty credentials, the 23/24-character boundary, unauthenticated/invalid/valid requests, production lock precedence, and response/log redaction. Test credentials are generated in memory and never loaded from `.dev.vars` or cloud secrets. CI runs this suite after the build and Wrangler validation. This validates runtime code and bundling, not the live account's secret bindings.
-
-References: https://developers.cloudflare.com/workers/previews/configuration/, https://developers.cloudflare.com/workers/previews/test-and-debug/, https://developers.cloudflare.com/workers/runtime-apis/bindings/ and https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/
+References: https://developers.cloudflare.com/workers/previews/configuration/ ; https://developers.cloudflare.com/workers/ci-cd/builds/ ; https://developers.cloudflare.com/workers/configuration/routing/workers-dev/

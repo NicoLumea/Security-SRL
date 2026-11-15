@@ -22,4 +22,4 @@ GitHub Actions in `.github/workflows/ci.yml` also installs Chromium with its ope
 
 The original offline delivery instructions are retained unchanged in `ARCHIVE_START_HERE.txt` for historical reference; their paths and repository-status statements describe the ZIP, not the repaired checkout. The original `Security-SRL.bundle` remains recoverable from the uploaded main commit `f3716dc1687cb0e400db7dd9e1f1486ca1b7556d` and the original delivery ZIP. It is not needed in the active source tree.
 
-Cloudflare connection is a separate later step; follow `CLOUDFLARE_SETUP.md`. Keep production locked and do not create D1/R2 resources for this presentation repair.
+Cloudflare connection is a separate later step; follow `CLOUDFLARE_SETUP.md`. Keep production releases approval-controlled and do not create D1/R2 resources for the static website. Public access requires no visitor secrets.
