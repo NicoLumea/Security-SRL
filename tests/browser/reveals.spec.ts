@@ -38,7 +38,8 @@ for (const width of [320, 390, 768, 1024, 1440]) {
     await expect(page.locator('.hero h1')).toBeVisible();
     await expect(page.locator('.hero [data-reveal]')).toHaveCount(0);
     await expect(page.locator('.hero-image')).toBeVisible();
-    await expect(page.locator('video')).toHaveCount(0);
+    // Normal-motion Romanian home now includes the supplied hero video.
+    await expect(page.locator('video.sentinel-camera-video')).toHaveCount(1);
     const card = page.locator('.service-card').first();
     await expect(card).toHaveAttribute('data-reveal-state', 'hidden');
     await expect(card).toHaveCSS('opacity', '0');

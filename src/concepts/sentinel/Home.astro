@@ -27,7 +27,24 @@ const featured = site.featuredOrder
     loading="eager"
     fetchpriority="high"
   />
-  {site.heroVideo.mp4 && (
+  {lang === 'ro' && (
+    <template data-sentinel-hero-template>
+      <video
+        class="hero-video sentinel-camera-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster={poster.src}
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <source src="/media/sentinel-hero-security-camera.mp4" type="video/mp4" />
+      </video>
+    </template>
+  )}
+  {lang !== 'ro' && site.heroVideo.mp4 && (
     <video
       class="hero-video"
       data-hero-video
@@ -198,3 +215,7 @@ const featured = site.featuredOrder
   </div>
 </section>
 <CTA lang={lang} />
+
+<script>
+  import '../../scripts/sentinel-hero-video';
+</script>
