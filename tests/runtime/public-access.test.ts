@@ -65,6 +65,7 @@ for (const [name, bindings] of Object.entries({
         const img = await mf.dispatchFetch(`https://website.example${image[1]}`);
         assert.equal(img.status, 200);
         assert.match(img.headers.get('content-type') ?? '', /^image\//);
+        await img.arrayBuffer();
       }
     }
     const media = await mf.dispatchFetch(
@@ -83,6 +84,7 @@ for (const [name, bindings] of Object.entries({
       headers: { Authorization: 'Basic %%%' },
     });
     assert.equal(malformed.status, 200);
+    await malformed.text();
   });
   test(`workerd: ${name} still blocks staff, API and mutations`, async (t) => {
     const mf = runtime(t, bindings as Record<string, string>);
@@ -92,15 +94,17 @@ for (const [name, bindings] of Object.entries({
       '/concepts/sentinel/ro/dashboard/',
       '/%61dmin/',
     ]) {
-      assert.equal((await mf.dispatchFetch(`https://website.example${path}`)).status, 403);
+      const response = await mf.dispatchFetch(`https://website.example${path}`);
+      assert.equal(response.status, 403);
+      await response.text();
     }
-    assert.equal(
-      (await mf.dispatchFetch('https://website.example/', { method: 'POST' })).status,
-      405,
-    );
+    const mutation = await mf.dispatchFetch('https://website.example/', { method: 'POST' });
+    assert.equal(mutation.status, 405);
+    await mutation.text();
     const missing = await mf.dispatchFetch('https://website.example/not-a-page/');
     assert.equal(missing.status, 404);
     assert.equal(missing.headers.get('WWW-Authenticate'), null);
+    await missing.text();
     assert.match(missing.headers.get('Content-Security-Policy') ?? '', /frame-ancestors 'none'/);
   });
 }
