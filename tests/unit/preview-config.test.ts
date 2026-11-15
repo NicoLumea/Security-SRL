@@ -23,7 +23,7 @@ const request = (path: string, authenticated = true) =>
       : {},
   });
 
-test('checked-in production settings stay locked even with valid preview credentials', async () => {
+test('production never accepts preview credentials or reads assets without production secrets', async () => {
   let assetReads = 0;
   const env = {
     ...config.vars,
@@ -38,7 +38,7 @@ test('checked-in production settings stay locked even with valid preview credent
   for (const path of ['/', '/concepts/sentinel/ro/', '/_astro/example.css']) {
     const response = await worker.fetch(request(path), env);
     assert.equal(response.status, 503);
-    assert.equal(await response.text(), 'Deployment is locked.');
+    assert.equal(await response.text(), 'Private production review is not configured.');
   }
   assert.equal(assetReads, 0);
   assert.equal(config.assets.run_worker_first, true);
@@ -71,4 +71,32 @@ test('branch preview config serves protected assets without production data bind
     (await worker.fetch(request('/'), { ...env, PREVIEW_PASSWORD: undefined })).status,
     503,
   );
+});
+
+test('production configuration enables only authenticated review and retains the kill switch', async () => {
+  assert.equal(config.vars.ENVIRONMENT, 'production');
+  assert.equal(config.vars.DEPLOYMENT_LOCKED, 'false');
+  assert.equal(config.workers_dev, true);
+  assert.equal(config.vars.PRODUCTION_PASSWORD, undefined);
+  assert.equal(config.previews.vars.PRODUCTION_PASSWORD, undefined);
+  const env = {
+    ...config.vars,
+    PRODUCTION_USER: credentials.PREVIEW_USER,
+    PRODUCTION_PASSWORD: credentials.PREVIEW_PASSWORD,
+    ASSETS: { fetch: async () => new Response('private production') },
+  };
+  assert.equal((await worker.fetch(request('/', false), env)).status, 401);
+  assert.equal((await worker.fetch(request('/'), env)).status, 200);
+  for (const locked of [undefined, 'true', 'False', '']) {
+    assert.equal(
+      (await worker.fetch(request('/'), { ...env, DEPLOYMENT_LOCKED: locked })).status,
+      503,
+    );
+  }
+  for (const environment of [undefined, 'locked', 'unknown']) {
+    assert.equal(
+      (await worker.fetch(request('/'), { ...env, ENVIRONMENT: environment })).status,
+      503,
+    );
+  }
 });

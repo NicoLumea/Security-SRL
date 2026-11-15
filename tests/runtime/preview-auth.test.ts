@@ -151,7 +151,11 @@ test('workerd: valid credentials at the 24-character boundary serve the built As
 });
 
 test('workerd: production remains locked with valid preview credentials', async (t) => {
-  const { mf, messages } = runtime(t, { ...config.vars, ...credentials });
+  const { mf, messages } = runtime(t, {
+    ...config.vars,
+    ...credentials,
+    DEPLOYMENT_LOCKED: 'true',
+  });
   for (const path of ['/', '/concepts/sentinel/ro/', '/favicon.svg']) {
     const response = await mf.dispatchFetch(`https://preview.example${path}`, {
       headers: { Authorization: authorization },
@@ -172,3 +176,71 @@ test('workerd: credentials never appear in responses or captured runtime logs', 
   }
   // The runtime helper also checks console output after workerd shuts down.
 });
+
+test('workerd: production review requires its own secrets and preserves the perimeter', async (t) => {
+  const productionUser = randomUUID();
+  const productionPassword = randomBytes(24).toString('base64url');
+  const productionAuthorization = `Basic ${btoa(`${productionUser}:${productionPassword}`)}`;
+  sensitiveValues.push(
+    productionUser,
+    productionPassword,
+    productionAuthorization,
+    productionAuthorization.slice(6),
+  );
+  const { mf } = runtime(t, {
+    ...config.vars,
+    ...credentials,
+    PRODUCTION_USER: productionUser,
+    PRODUCTION_PASSWORD: productionPassword,
+  });
+  for (const path of ['/', '/concepts/sentinel/ro/', '/media/sentinel-hero-security-camera.mp4']) {
+    const url = `https://production.example${path}`;
+    assert.equal((await mf.dispatchFetch(url)).status, 401);
+    assert.equal(
+      (await mf.dispatchFetch(url, { headers: { Authorization: authorization } })).status,
+      401,
+    );
+    const response = await mf.dispatchFetch(url, {
+      headers: { Authorization: productionAuthorization },
+    });
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get('X-Robots-Tag') ?? '', /noindex/);
+    assert.equal(response.headers.get('Cache-Control'), 'private, no-store');
+    if (path.endsWith('.mp4')) {
+      assert.deepEqual(
+        Buffer.from(await response.arrayBuffer()),
+        readFileSync('public/media/sentinel-hero-security-camera.mp4'),
+      );
+    } else await readSafe(response);
+  }
+  for (const path of ['/admin/', '/api/contact', '/concepts/sentinel/ro/dashboard/']) {
+    assert.equal(
+      (
+        await mf.dispatchFetch(`https://production.example${path}`, {
+          headers: { Authorization: productionAuthorization },
+        })
+      ).status,
+      403,
+    );
+  }
+  assert.equal(
+    (
+      await mf.dispatchFetch('https://production.example/', {
+        method: 'POST',
+        headers: { Authorization: productionAuthorization },
+      })
+    ).status,
+    405,
+  );
+});
+
+for (const secrets of [{}, { PRODUCTION_USER: 'reviewer', PRODUCTION_PASSWORD: 'short' }]) {
+  test('workerd: missing or short production credentials fail closed', async (t) => {
+    const { mf } = runtime(t, { ...config.vars, ...credentials, ...secrets });
+    const response = await mf.dispatchFetch('https://production.example/', {
+      headers: { Authorization: authorization },
+    });
+    assert.equal(response.status, 503);
+    assert.equal(await readSafe(response), 'Private production review is not configured.');
+  });
+}

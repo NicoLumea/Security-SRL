@@ -1,6 +1,8 @@
-/** Preview perimeter only, NOT staff authentication. All staff/API routes fail closed. */
+/** Private presentation perimeter, NOT staff authentication. Staff/API routes fail closed. */
 export interface Env {
   ASSETS: { fetch(request: Request): Promise<Response> };
+  PRODUCTION_USER?: string;
+  PRODUCTION_PASSWORD?: string;
   PREVIEW_USER?: string;
   PREVIEW_PASSWORD?: string;
   DEPLOYMENT_LOCKED?: string;
@@ -37,19 +39,32 @@ function response(body: string, status: number, extra: Record<string, string> = 
 }
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    if (env.DEPLOYMENT_LOCKED !== 'false' || env.ENVIRONMENT !== 'preview')
+    if (
+      env.DEPLOYMENT_LOCKED !== 'false' ||
+      !['preview', 'production'].includes(env.ENVIRONMENT ?? '')
+    )
       return response('Deployment is locked.', 503);
-    const configurationError = !env.PREVIEW_USER
+    const production = env.ENVIRONMENT === 'production';
+    const username = production ? env.PRODUCTION_USER : env.PREVIEW_USER;
+    const password = production ? env.PRODUCTION_PASSWORD : env.PREVIEW_PASSWORD;
+    const configurationError = !username
       ? 'PREVIEW_USER_MISSING'
-      : !env.PREVIEW_PASSWORD
+      : !password
         ? 'PREVIEW_PASSWORD_MISSING'
-        : env.PREVIEW_PASSWORD.length < 24
+        : password.length < 24
           ? 'PREVIEW_PASSWORD_TOO_SHORT'
           : undefined;
     if (configurationError) {
       // Private runtime diagnostics only: never log values, lengths, env or request headers.
-      console.warn(`[preview-auth] ${configurationError}`);
-      return response('Private preview is not configured.', 503);
+      console.warn(
+        `[${production ? 'production' : 'preview'}-auth] ${production ? configurationError.replace('PREVIEW_', 'PRODUCTION_') : configurationError}`,
+      );
+      return response(
+        production
+          ? 'Private production review is not configured.'
+          : 'Private preview is not configured.',
+        503,
+      );
     }
     let decoded = '';
     try {
@@ -58,9 +73,9 @@ export default {
     } catch {
       /* Invalid authorization is rejected. */
     }
-    if (!(await constantTimeEqual(decoded, `${env.PREVIEW_USER}:${env.PREVIEW_PASSWORD}`)))
+    if (!(await constantTimeEqual(decoded, `${username}:${password}`)))
       return response('Private presentation. Authorization required.', 401, {
-        'WWW-Authenticate': 'Basic realm="Security SRL preview", charset="UTF-8"',
+        'WWW-Authenticate': `Basic realm="Security SRL ${production ? 'production review' : 'preview'}", charset="UTF-8"`,
       });
     let path: string;
     try {

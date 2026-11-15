@@ -1,3 +1,5 @@
+> Current production-unlock proposal: see [PRODUCTION_REVIEW_ACCESS.md](PRODUCTION_REVIEW_ACCESS.md). The locked-production descriptions below document the earlier preview setup. This proposal changes only future production review configuration; existing Preview settings remain unchanged.
+
 # Cloudflare branch previews on security-srl
 
 ## Architecture and protection

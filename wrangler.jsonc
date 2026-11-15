@@ -3,7 +3,7 @@
   "name": "security-srl",
   "main": "worker/index.ts",
   "compatibility_date": "2026-11-07",
-  "workers_dev": false,
+  "workers_dev": true,
   "preview_urls": true,
   "assets": {
     "directory": "./dist",
@@ -12,8 +12,8 @@
     "not_found_handling": "404-page",
   },
   "vars": {
-    "ENVIRONMENT": "locked",
-    "DEPLOYMENT_LOCKED": "true",
+    "ENVIRONMENT": "production",
+    "DEPLOYMENT_LOCKED": "false",
   },
   "previews": {
     "observability": {
