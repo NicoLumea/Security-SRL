@@ -35,6 +35,9 @@ for (const width of [320, 390, 768, 1024, 1440]) {
     await page.locator('.v-hero').scrollIntoViewIfNeeded();
     if (width === 390 || width === 1440) {
       await page.emulateMedia({ reducedMotion: 'reduce' });
+      // Capture the initial viewport, not a sticky-header frame after section scrolling.
+      await page.goto(home);
+      await page.evaluate(() => document.fonts.ready);
       await info.attach(`vanguard-${width}`, {
         body: await page.screenshot({ fullPage: true }),
         contentType: 'image/png',
