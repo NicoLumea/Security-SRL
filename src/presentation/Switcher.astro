@@ -1,9 +1,10 @@
 ---
 import { concepts } from '../data/content';
 import { copy, type Locale } from '../i18n';
-import { route, galleryRoute } from '../lib/routes';
+import { conceptRoute, galleryRoute } from '../lib/routes';
 import Icon from '../components/Icon.astro';
-const { lang = 'ro' } = Astro.props as { lang: Locale };
+const { lang = 'ro', active = 'sentinel' } = Astro.props as { lang: Locale; active?: string };
+const current = concepts.find((c) => c.id === active)!;
 const t = copy[lang];
 ---
 
@@ -14,12 +15,13 @@ const t = copy[lang];
   </a>
   <details class="concept-menu">
     <summary>
-      <span class="status-dot"></span>01 — Sentinel <span aria-hidden="true">⌄</span>
+      <span class="status-dot"></span>
+      {current.number} — {current.name} <span aria-hidden="true">⌄</span>
     </summary>
     <nav aria-label={t.gallery}>
       {concepts.map((c) =>
         c.available ? (
-          <a href={route(lang)} aria-current="true">
+          <a href={conceptRoute(lang, c.id)} aria-current={c.id === active ? 'true' : undefined}>
             {c.number} / {c.name}
           </a>
         ) : (

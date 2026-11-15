@@ -48,6 +48,8 @@ for (const [name, bindings] of Object.entries({
     for (const path of [
       '/',
       '/en/',
+      '/concepts/vanguard/ro/',
+      '/concepts/vanguard/en/',
       '/concepts/sentinel/ro/',
       '/concepts/sentinel/en/',
       '/concepts/sentinel/ro/proiecte/',
@@ -59,7 +61,7 @@ for (const [name, bindings] of Object.entries({
       const html = await r.text();
       assert.match(html, /<html/);
       assert.doesNotMatch(html, /Deployment is locked|Authorization required/);
-      if (path === '/concepts/sentinel/ro/') {
+      if (path === '/concepts/sentinel/ro/' || path === '/concepts/vanguard/ro/') {
         const image = html.match(/<img[^>]*src="([^"]+)"/);
         assert.ok(image);
         const img = await mf.dispatchFetch(`https://website.example${image[1]}`);
