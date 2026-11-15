@@ -2,9 +2,12 @@ import { test, expect } from '@playwright/test';
 const home = '/concepts/sentinel/ro/';
 const asset = '/media/sentinel-hero-security-camera.mp4';
 for (const width of [320, 390, 768, 1024, 1440]) {
-  test(`hero video plays without changing layout at ${width}px`, async ({ page }) => {
+  test(`hero video plays without changing layout at ${width}px`, async ({ page }, info) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (message) => {
+      if (message.type() === 'error') errors.push(message.text());
+    });
     await page.setViewportSize({ width, height: 900 });
     await page.goto(home);
     const video = page.locator('video.sentinel-camera-video');
@@ -47,12 +50,27 @@ for (const width of [320, 390, 768, 1024, 1440]) {
     await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeLessThan(2);
     expect(await page.locator('.hero').boundingBox()).toEqual(before);
     if (width === 390 || width === 1440) {
-      await page.screenshot({ path: `docs/hero-video-${width}.png` });
+      await info.attach(`hero-video-${width}`, {
+        body: await page.screenshot(),
+        contentType: 'image/png',
+      });
+      if (width === 1440) {
+        await info.attach('hero-camera-detail', {
+          body: await page.locator('.hero').screenshot(),
+          contentType: 'image/png',
+        });
+      }
     }
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(video).toHaveCount(0);
     await expect(page.locator('.hero-image')).toBeVisible();
     expect(await page.locator('.hero').boundingBox()).toEqual(before);
+    if (width === 390 || width === 1440) {
+      await info.attach(`hero-original-image-${width}`, {
+        body: await page.screenshot(),
+        contentType: 'image/png',
+      });
+    }
     expect(errors).toEqual([]);
   });
 }
