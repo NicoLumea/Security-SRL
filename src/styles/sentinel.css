@@ -1244,3 +1244,19 @@ form .check-label {
     font-size: 36px;
   }
 }
+
+/* Supplied Romanian hero footage: preserve its colors and the existing overlay. */
+.sentinel-camera-video {
+  filter: none;
+  object-position: 80% 50%;
+  pointer-events: none;
+  opacity: 0;
+}
+.sentinel-camera-video.is-playing {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sentinel-camera-video {
+    display: none;
+  }
+}
