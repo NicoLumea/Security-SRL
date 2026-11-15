@@ -3,7 +3,7 @@
   "name": "security-srl",
   "main": "worker/index.ts",
   "compatibility_date": "2026-11-07",
-  "workers_dev": false,
+  "workers_dev": true,
   "preview_urls": true,
   "assets": {
     "directory": "./dist",
@@ -11,20 +11,13 @@
     "run_worker_first": true,
     "not_found_handling": "404-page",
   },
-  "vars": {
-    "ENVIRONMENT": "locked",
-    "DEPLOYMENT_LOCKED": "true",
-  },
   "previews": {
     "observability": {
       "enabled": true,
       "head_sampling_rate": 1,
       "logs": { "enabled": true, "invocation_logs": false, "persist": true },
     },
-    "vars": {
-      "ENVIRONMENT": "preview",
-      "DEPLOYMENT_LOCKED": "false",
-    },
+    "vars": {},
     "d1_databases": [],
     "r2_buckets": [],
   },

@@ -9,7 +9,7 @@ Phase 1–2 implementation: an original four-direction showroom and complete Rom
 - Sentinel `/concepts/sentinel/ro/` and `/concepts/sentinel/en/`, dedicated services, portfolio, two demonstration project pages, about, contact, privacy, cookies and staff-unavailable pages.
 - Accessible native disclosure navigation, concept switcher, portfolio search/filtering, mobile featured-project rotation, scroll reveals and reduced-motion styles.
 - Non-submitting contact demo and local consent preferences; no analytics, live email or inquiry collection.
-- Cloudflare Worker with a private preview gate on **every** asset; staff/API routes deny access. Production configuration is locked.
+- Cloudflare Worker serving public pages and assets without visitor passwords; staff/API routes still deny access. Production releases require review.
 - Future D1 schema and typed CMS/media/mail contracts. **Not a working CMS or authentication system.**
 
 ## Run
@@ -21,7 +21,7 @@ npm ci
 npm run dev
 ```
 
-Development serves on localhost. It does not include the deployment perimeter; do not expose the Astro dev server to clients. To inspect the production assets with the perimeter, copy `.dev.vars.example` to `.dev.vars`, enter a preview username and unique password of at least 24 characters, then run:
+Development serves on localhost. To inspect the built website through the actual public Worker, no credentials or `.dev.vars` are needed. Run:
 
 ```sh
 npm run build

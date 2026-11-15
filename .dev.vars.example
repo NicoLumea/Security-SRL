@@ -1,4 +1,2 @@
-# Copy to .dev.vars; never commit the populated file.
-# Preview gate only. These are not staff credentials.
-PREVIEW_USER=
-PREVIEW_PASSWORD=
+# Public pages and previews require no runtime credentials.
+# Never put future administrative secrets in source control.
