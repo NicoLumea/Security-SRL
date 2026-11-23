@@ -3,15 +3,6 @@ menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () =>
 menu?.addEventListener('keydown', event => {
   if (event.key === 'Escape') { menu.open = false; menu.querySelector('summary')?.focus(); }
 });
-const form = document.querySelector<HTMLFormElement>('.d-form');
-form?.querySelector<HTMLButtonElement>('[data-demo-submit]')?.addEventListener('click', () => {
-  const feedback = form.querySelector<HTMLElement>('.form-feedback');
-  if (!feedback) return;
-  const valid = form.reportValidity();
-  feedback.textContent = valid ? form.dataset.success ?? '' : form.dataset.error ?? '';
-  feedback.dataset.state = valid ? 'success' : 'error';
-  feedback.focus();
-});
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const targets = document.querySelectorAll<HTMLElement>('[data-d-reveal]');
 const active = new Set<Animation>();
