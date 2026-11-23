@@ -161,7 +161,7 @@ export const concepts = [
     id: 'precision',
     number: '03',
     name: 'Precision',
-    available: false,
+    available: true,
     ro: {
       subtitle: 'Engineered Clarity',
       description:
