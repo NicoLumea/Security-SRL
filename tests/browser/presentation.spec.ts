@@ -4,11 +4,11 @@ const home = '/concepts/sentinel/ro/';
 test('gallery, switcher, language and project detail navigation', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.concept-card')).toHaveCount(4);
-  await expect(page.locator('.concept-action[href]')).toHaveCount(3);
+  await expect(page.locator('.concept-action[href]')).toHaveCount(4);
   await page.locator('.sentinel').getByRole('link', { name: 'Explorează conceptul' }).click();
   await expect(page).toHaveURL(new RegExp(home));
   await page.locator('.concept-menu summary').click();
-  await expect(page.locator('.concept-menu [aria-disabled=true]')).toHaveCount(1);
+  await expect(page.locator('.concept-menu [aria-disabled=true]')).toHaveCount(0);
   await page.keyboard.press('Escape');
   await page.getByRole('link', { name: 'Switch to English' }).click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
