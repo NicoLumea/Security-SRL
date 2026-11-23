@@ -52,6 +52,8 @@ for (const [name, bindings] of Object.entries({
       '/concepts/vanguard/en/',
       '/concepts/precision/ro/',
       '/concepts/precision/en/',
+      '/concepts/dominion/ro/',
+      '/concepts/dominion/en/',
       '/concepts/sentinel/ro/',
       '/concepts/sentinel/en/',
       '/concepts/sentinel/ro/proiecte/',
