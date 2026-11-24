@@ -30,14 +30,14 @@ test('Precision interaction stops autoplay until explicitly resumed', async ({ p
   await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '1');
   await page.clock.fastForward(15000);
   await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '1');
-  await page.locator('[data-p-select]').nth(3).click();
-  await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '3');
+  await page.locator('[data-p-select]').nth(2).click();
+  await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '2');
   await page.locator('[data-p-toggle]').click();
   await page.locator('.p-hero h1').click();
   await page.clock.fastForward(5200);
-  await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '0');
-  await page.locator('[data-p-prev]').click();
   await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '3');
+  await page.locator('[data-p-prev]').click();
+  await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '2');
 });
 test('Precision hover and focus suspend automatic cycling', async ({ page }) => {
   await page.clock.install();
