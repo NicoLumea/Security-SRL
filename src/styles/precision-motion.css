@@ -173,7 +173,7 @@
 }
 .p-category-carousel.is-ready .p-category-card[data-slot="right"] {
   --pc-offset: clamp(245px, 30vw, 410px);
-  --pc-scale: .82; --pc-opacity: .62; --pc-layer: 2; --pc-pointer: auto;
+  --pc-scale: .82; --pc-opacity: 1; --pc-layer: 2; --pc-pointer: auto;
 }
 .p-category-carousel.is-ready .p-category-card[data-slot="far"] {
   --pc-offset: calc(-1 * clamp(650px, 74vw, 1010px));
