@@ -76,7 +76,7 @@ if (root) {
       const from = index === 3 ? `translate3d(${offset}px, 0, 0)` : `translate3d(0, ${offset}px, 0)`;
       const animation = element.animate(
         [{ opacity: 0.12, transform: from }, { opacity: 1, transform: 'translate3d(0,0,0)' }],
-        { duration: index === 3 ? 900 : 680, delay: offsets[index], easing: 'cubic-bezier(.2,.7,.2,1)' },
+        { duration: index === 3 ? 900 : 680, delay: offsets[index], easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'backwards' },
       );
       introAnimations.add(animation);
       animation.finished.then(() => introAnimations.delete(animation)).catch(() => introAnimations.delete(animation));
