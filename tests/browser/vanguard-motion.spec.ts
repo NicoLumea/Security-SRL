@@ -18,7 +18,7 @@ for (const route of routes) {
     await expect(page.locator('.v-hero-media img')).toBeVisible();
     const serviceTop = await page.locator('.v-service').first().evaluate(element => element.getBoundingClientRect().top + window.scrollY);
     // Approach, enter and reverse across the same scroll region.
-    const positions = [serviceTop - 790, serviceTop - 590, serviceTop - 350, serviceTop - 590];
+    const positions = [serviceTop - 940, serviceTop - 810, serviceTop - 610, serviceTop - 810];
     const samples = [];
     for (const top of positions) {
       await page.evaluate(y => window.scrollTo({ top: y, behavior: 'instant' }), top);
