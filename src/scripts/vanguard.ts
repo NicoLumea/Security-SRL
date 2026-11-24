@@ -96,12 +96,17 @@ if (root) {
         return;
       }
       const rect = element.getBoundingClientRect();
+      // Account for our own transform so scroll progress never feeds back on itself.
+      const currentTransform = getComputedStyle(element).transform;
+      const ownY = currentTransform === 'none' ? 0 : new DOMMatrixReadOnly(currentTransform).m42;
+      const naturalTop = rect.top - ownY;
+      const naturalBottom = rect.bottom - ownY;
       // Skip unrelated distant targets without making them permanently invisible.
       const entryStart = height * (mobile ? 0.96 : 0.93) - sequence * (mobile ? 17 : 25);
       const entryEnd = height * (mobile ? 0.69 : 0.64) - sequence * (mobile ? 8 : 14);
-      const progress = clamp((entryStart - rect.top) / Math.max(1, entryStart - entryEnd));
+      const progress = clamp((entryStart - naturalTop) / Math.max(1, entryStart - entryEnd));
       const ease = 1 - Math.pow(1 - progress, 3);
-      const exiting = clamp((height * 0.13 - rect.bottom) / (height * 0.35));
+      const exiting = clamp((height * 0.13 - naturalBottom) / (height * 0.35));
       let distance = mobile ? 36 : 76;
       let x = 0;
       if (kind === 'project') {
