@@ -1,6 +1,13 @@
 import { test, expect } from '@playwright/test';
 const ro = '/concepts/precision/ro/';
 const en = '/concepts/precision/en/';
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('security-srl-consent-v1', JSON.stringify({
+      version: 1, at: Date.now(), analytics: false, marketing: false,
+    }));
+  });
+});
 const selected = (page: import('@playwright/test').Page) =>
   page.locator('[data-p-card] [aria-pressed="true"]');
 for (const path of [ro, en]) {
@@ -50,8 +57,10 @@ test('Precision hover and focus suspend automatic cycling', async ({ page }) => 
   await page.clock.fastForward(5100);
   await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '1');
   await page.locator('[data-p-toggle]').focus();
+  await expect(page.locator('[data-p-toggle]')).toBeFocused();
+  const index = await page.locator('[data-p-card][data-slot="center"]').getAttribute('data-index');
   await page.clock.fastForward(12000);
-  await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '1');
+  await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', index || '');
 });
 test('Reduced motion disables cycling but preserves all manual controls', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
