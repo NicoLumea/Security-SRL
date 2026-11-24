@@ -169,7 +169,7 @@
 }
 .p-category-carousel.is-ready .p-category-card[data-slot="left"] {
   --pc-offset: calc(-1 * clamp(245px, 30vw, 410px));
-  --pc-scale: .82; --pc-opacity: .62; --pc-layer: 2; --pc-pointer: auto;
+  --pc-scale: .82; --pc-opacity: 1; --pc-layer: 2; --pc-pointer: auto;
 }
 .p-category-carousel.is-ready .p-category-card[data-slot="right"] {
   --pc-offset: clamp(245px, 30vw, 410px);
@@ -240,3 +240,12 @@
     transition: none!important; animation: none!important;
   }
 }
+
+/* Palette-consistent contrast corrections for Precision's pale architectural surfaces. */
+.precision-page .p-section-heading > p,
+.precision-page .p-project > p { color: #49534d; }
+.precision-page .p-disclaimer { color: #484e46; }
+.precision-page .p-contact-grid > div > p { color: #343a35; }
+.precision-page .p-contact-grid > div > .p-disclaimer { color: #41463f; }
+.precision-page .p-category-card[data-slot="left"],
+.precision-page .p-category-card[data-slot="right"] { background: #d4d1c8; }
