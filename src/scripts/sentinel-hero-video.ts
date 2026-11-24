@@ -1,24 +1,65 @@
-// Keep the static image (and avoid a video request) until motion is permitted.
-// Native muted autoplay handles playback; no retries or forced play() calls.
-const template = document.querySelector<HTMLTemplateElement>('[data-sentinel-hero-template]');
-if (template) {
+// The video is server-rendered for both languages. No image fallback or DOM injection.
+const video = document.querySelector<HTMLVideoElement>('[data-sentinel-hero-video]');
+const controls = document.querySelector<HTMLElement>('[data-sentinel-video-controls]');
+if (video && controls) {
+  const button = controls.querySelector<HTMLButtonElement>('[data-sentinel-video-play]');
+  const error = controls.querySelector<HTMLElement>('[data-sentinel-video-error]');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  let video: HTMLVideoElement | undefined;
-  const sync = () => {
-    if (motion.matches) {
-      video?.pause();
-      video?.remove();
-      video = undefined;
-      return;
-    }
-    if (video) return;
-    video = template.content.querySelector('video')!.cloneNode(true) as HTMLVideoElement;
-    video.muted = true;
-    const current = video;
-    current.addEventListener('playing', () => current.classList.add('is-playing'));
-    current.addEventListener('error', () => current.classList.remove('is-playing'));
-    template.after(current);
+  let manual = false;
+  let failed = false;
+
+  const showButton = () => { if (button && !failed) button.hidden = false; };
+  const showError = () => {
+    failed = true;
+    if (button) button.hidden = true;
+    if (error) error.hidden = false;
   };
-  sync();
-  motion.addEventListener('change', sync);
+  const syncPreference = () => {
+    if (motion.matches && !manual) {
+      video.autoplay = false;
+      video.pause();
+      showButton();
+    } else if (!manual && !failed) {
+      video.autoplay = true;
+      void video.play().catch(() => {
+        if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showError();
+        else showButton();
+      });
+    }
+  };
+
+  // Explicitly set the property as well as the HTML muted attribute for iOS.
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.addEventListener('playing', () => {
+    if (button) button.hidden = true;
+    if (error) error.hidden = true;
+  });
+  video.addEventListener('error', showError);
+  video.querySelector('source')?.addEventListener('error', showError);
+  if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showError();
+  video.addEventListener('stalled', () => {
+    if (video.error) showError();
+  });
+  button?.addEventListener('click', () => {
+    // This call executes synchronously inside a genuine user activation.
+    manual = true;
+    video.classList.add('user-activated');
+    video.muted = true;
+    const attempt = video.play();
+    void attempt.then(() => {
+      if (button) button.hidden = true;
+    }).catch(() => {
+      video.classList.remove('user-activated');
+      showButton();
+    });
+  });
+  motion.addEventListener('change', () => {
+    if (!motion.matches) manual = false;
+    if (!motion.matches) video.classList.remove('user-activated');
+    syncPreference();
+  });
+  syncPreference();
 }
+export {};
