@@ -13,17 +13,18 @@ menu?.addEventListener('keydown', event => {
 const root = document.querySelector<HTMLElement>('.vanguard-page');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 if (root) {
+  const pageRoot = root;
   type MotionKind = 'heading' | 'copy' | 'service' | 'project' | 'about-title' | 'about-copy' | 'process' | 'contact-title';
   type MotionTarget = { element: HTMLElement; kind: MotionKind; sequence: number; };
   const targets: MotionTarget[] = [];
-  const headingGroups = root.querySelectorAll<HTMLElement>('[data-v-group]');
+  const headingGroups = pageRoot.querySelectorAll<HTMLElement>('[data-v-group]');
   headingGroups.forEach(group => {
     [group.querySelector<HTMLElement>('.v-kicker'), group.querySelector<HTMLElement>('h2'), group.querySelector<HTMLElement>('p')]
       .forEach((element, sequence) => {
         if (element) targets.push({ element, kind: sequence === 2 ? 'copy' : 'heading', sequence });
       });
   });
-  root.querySelectorAll<HTMLElement>('[data-v-motion]').forEach(element => {
+  pageRoot.querySelectorAll<HTMLElement>('[data-v-motion]').forEach(element => {
     const kind = element.dataset.vMotion as MotionKind;
     let sequence = 0;
     if (kind === 'service') {
@@ -33,13 +34,13 @@ if (root) {
     }
     targets.push({ element, kind, sequence });
   });
-  const hero = root.querySelector<HTMLElement>('.v-hero');
-  const heroCopy = root.querySelector<HTMLElement>('.v-hero-copy');
-  const heroImage = root.querySelector<HTMLElement>('.v-hero-media img');
-  const heroArrow = root.querySelector<HTMLElement>('.v-media-arrow');
-  const projectImages = [...root.querySelectorAll<HTMLElement>('.v-project-image img')];
+  const hero = pageRoot.querySelector<HTMLElement>('.v-hero');
+  const heroCopy = pageRoot.querySelector<HTMLElement>('.v-hero-copy');
+  const heroImage = pageRoot.querySelector<HTMLElement>('.v-hero-media img');
+  const heroArrow = pageRoot.querySelector<HTMLElement>('.v-media-arrow');
+  const projectImages = [...pageRoot.querySelectorAll<HTMLElement>('.v-project-image img')];
   const heroParts = ['title', 'intro', 'actions', 'media', 'arrow']
-    .map(name => root.querySelector<HTMLElement>(`[data-v-hero="${name}"]`))
+    .map(name => pageRoot.querySelector<HTMLElement>(`[data-v-hero="${name}"]`))
     .filter((element): element is HTMLElement => Boolean(element));
   const introAnimations = new Set<Animation>();
   let raf = 0;
@@ -63,7 +64,7 @@ if (root) {
     if (heroImage) clearStyle(heroImage);
     if (heroArrow) clearStyle(heroArrow);
     projectImages.forEach(image => image.style.removeProperty('--v-parallax-y'));
-    root.removeAttribute('data-v-motion-active');
+    pageRoot.removeAttribute('data-v-motion-active');
   }
 
   // A short staged first impression, separate from reversible scroll progress.
@@ -88,7 +89,7 @@ if (root) {
     if (stopped || reduced.matches) return;
     const height = Math.max(1, window.innerHeight);
     const mobile = small.matches;
-    root.setAttribute('data-v-motion-active', '');
+    pageRoot.setAttribute('data-v-motion-active', '');
     targets.forEach(({ element, kind, sequence }) => {
       // Native focus/typing wins over decorative motion.
       if (interactive(element)) {
@@ -162,8 +163,8 @@ if (root) {
   small.addEventListener('change', schedule);
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', schedule, { passive: true });
-  root.addEventListener('focusin', schedule);
-  root.addEventListener('focusout', schedule);
+  pageRoot.addEventListener('focusin', schedule);
+  pageRoot.addEventListener('focusout', schedule);
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && window.scrollY !== lastScroll) schedule();
   });
