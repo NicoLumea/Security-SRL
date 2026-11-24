@@ -1,5 +1,7 @@
 /* Vanguard motion layer. Core layout, imagery, colors and typography are unchanged. */
 /* All content remains fully visible when JavaScript is disabled. */
+/* Clip decorative sideways entrances without creating a scrolling container. */
+.vanguard-page main { overflow-x: clip; }
 .vanguard-page {
   --v-motion-ease: cubic-bezier(.2,.7,.2,1);
 }
