@@ -37,7 +37,7 @@ for (const width of [320, 390, 768, 1024, 1440]) {
     await expect(page.locator('body')).toHaveAttribute('data-reveals', 'ready');
     await expect(page.locator('.hero h1')).toBeVisible();
     await expect(page.locator('.hero [data-reveal]')).toHaveCount(0);
-    await expect(page.locator('.hero-image')).toBeVisible();
+    await expect(page.locator('.sentinel-camera-video')).toHaveCount(1);
     // Normal-motion Romanian home now includes the supplied hero video.
     await expect(page.locator('video.sentinel-camera-video')).toHaveCount(1);
     const card = page.locator('.service-card').first();
@@ -194,7 +194,7 @@ for (const failure of ['unavailable', 'partial initialization']) {
         .locator('[data-reveal]')
         .evaluateAll((elements) => elements.every((el) => getComputedStyle(el).opacity === '1')),
     ).toBe(true);
-    await expect(page.locator('.hero-image')).toBeVisible();
+    await expect(page.locator('.sentinel-camera-video')).toHaveCount(1);
   });
 }
 
