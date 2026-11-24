@@ -51,7 +51,7 @@ if (carousel) {
     let timer: ReturnType<typeof setTimeout> | undefined;
     let revealTimer: ReturnType<typeof setTimeout> | undefined;
     let unteleportFrame = 0;
-    let previously = cards.map(() => '');
+    const previously = cards.map(() => '');
     let destroyed = false;
     const period = Number(widget.dataset.duration) || 5000;
 
@@ -137,9 +137,9 @@ if (carousel) {
       updateToggle();
       schedule();
     }
-    cards.forEach((card, index) => {
-      buttons[index]?.addEventListener('click', () => select(index, true));
-      buttons[index]?.addEventListener('keydown', event => {
+    buttons.forEach((button, index) => {
+      button?.addEventListener('click', () => select(index, true));
+      button?.addEventListener('keydown', event => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
         event.preventDefault();
         const move = event.key === 'ArrowLeft' ? -1 : 1;
