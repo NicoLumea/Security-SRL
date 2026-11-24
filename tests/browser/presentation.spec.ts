@@ -80,8 +80,9 @@ test('filters and cookie preference persistence', async ({ page }) => {
 test('reduced motion, fallback and no-JS navigation', async ({ page, browser }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(home);
-  await expect(page.locator('.hero-image')).toBeVisible();
-  await expect(page.locator('video')).toHaveCount(0);
+  await expect(page.locator('.sentinel-camera-video')).toHaveCount(1);
+  await expect(page.locator('.sentinel-camera-video')).toHaveCSS('visibility', 'hidden');
+  await expect(page.getByRole('button', { name: 'Redă videoclipul' })).toBeVisible();
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe(
     'auto',
   );
