@@ -21,7 +21,10 @@ if (video && controls) {
       showButton();
     } else if (!manual && !failed) {
       video.autoplay = true;
-      void video.play().catch(showButton);
+      void video.play().catch(() => {
+        if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showError();
+        else showButton();
+      });
     }
   };
 
@@ -35,6 +38,7 @@ if (video && controls) {
   });
   video.addEventListener('error', showError);
   video.querySelector('source')?.addEventListener('error', showError);
+  if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showError();
   video.addEventListener('stalled', () => {
     if (video.error) showError();
   });
