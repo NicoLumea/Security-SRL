@@ -15,8 +15,8 @@ for (const width of [320, 390, 768, 1024, 1440]) {
       await page.locator('.p-desktop-nav a[href="#services"]').click();
     }
     await expect(page).toHaveURL(/#services$/);
-    await page.locator('.p-service summary').first().click();
-    await expect(page.locator('.p-service details').first()).toHaveAttribute('open');
+    await page.locator('[data-p-next]').click();
+    await expect(page.locator('[data-p-card][data-slot="center"]')).toHaveAttribute('data-index', '1');
     if (width === 390 || width === 1440) {
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.goto(home);
