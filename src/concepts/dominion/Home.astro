@@ -1,0 +1,187 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Switcher from '../../presentation/Switcher.astro';
+import Brand from '../../components/Brand.astro';
+import { copy, type Locale } from '../../i18n';
+import { services, projects } from '../../data/content';
+import { conceptRoute, galleryRoute } from '../../lib/routes';
+import facade from '../../assets/facade.jpg';
+import surveillance from '../../assets/surveillance.jpg';
+import '../../styles/dominion.css';
+
+const { lang } = Astro.props as { lang: Locale };
+const t = copy[lang];
+const other = lang === 'ro' ? 'en' : 'ro';
+const nav = [
+  ['services', t.services], ['about', t.about], ['projects', t.projects], ['contact', t.contact]
+];
+const d = lang === 'ro' ? {
+  eyebrow: '04 / DOMINION — CONFIDENT PRESENCE',
+  heroFirst: 'O PREZENȚĂ',
+  heroSecond: 'MAI PUTERNICĂ.',
+  heroDescription: 'O viziune clară asupra protecției: sisteme gândite în jurul spațiului și al priorităților care contează.',
+  heroAside: 'SOLUȚII DE SECURITATE / PREZENTARE DE CONCEPT',
+  heroMeta: 'Protecție proiectată în jurul nevoilor reale.',
+  serviceLabel: 'CAPITOLUL 01 / DIRECȚII DE PROTECȚIE',
+  serviceTitle: 'Control asupra', serviceTitleAccent: 'fiecărui detaliu.',
+  serviceIntro: 'Domenii de soluții propuse pentru prezentare. Serviciile și echipamentele reale necesită confirmare.',
+  aboutLabel: 'CAPITOLUL 02 / MOD DE ABORDARE',
+  aboutTitle: 'Încrederea are', aboutTitleAccent: 'o structură.',
+  processLabel: 'ETAPE DE PREZENTARE',
+  projectLabel: 'CAPITOLUL 03 / SCENARII VIZUALE',
+  projectTitle: 'Spații diferite.', projectTitleAccent: 'Aceeași atenție.',
+  projectsNote: 'Exemple demonstrative cu fotografii ilustrative, nu lucrări realizate de Security SRL.',
+  contactLabel: 'CAPITOLUL 04 / DIALOG',
+  contactTitle: 'Începem cu', contactTitleAccent: 'o conversație.',
+  contactText: 'Datele de contact și detaliile comerciale vor fi adăugate după confirmare.',
+  formNotice: 'Acest formular este doar demonstrativ. Folosiți date fictive; mesajele nu sunt transmise și nu sunt stocate.',
+  footerNote: 'Propunere vizuală. Serviciile, procedurile și imaginile sunt ilustrative.',
+  scroll: 'DESCOPERĂ CONCEPTUL'
+} : {
+  eyebrow: '04 / DOMINION — CONFIDENT PRESENCE',
+  heroFirst: 'A STRONGER',
+  heroSecond: 'PRESENCE.',
+  heroDescription: 'A clear vision for protection: systems considered around the space and the priorities that matter.',
+  heroAside: 'SECURITY SOLUTIONS / CONCEPT PRESENTATION',
+  heroMeta: 'Protection designed around real needs.',
+  serviceLabel: 'CHAPTER 01 / PROTECTION DIRECTIONS',
+  serviceTitle: 'Control in', serviceTitleAccent: 'every detail.',
+  serviceIntro: 'Proposed solution categories for presentation. Actual services and equipment require confirmation.',
+  aboutLabel: 'CHAPTER 02 / APPROACH',
+  aboutTitle: 'Trust has', aboutTitleAccent: 'a structure.',
+  processLabel: 'ILLUSTRATIVE STEPS',
+  projectLabel: 'CHAPTER 03 / VISUAL SCENARIOS',
+  projectTitle: 'Different spaces.', projectTitleAccent: 'Equal attention.',
+  projectsNote: 'Demonstration examples using illustrative photography, not projects completed by Security SRL.',
+  contactLabel: 'CHAPTER 04 / DIALOGUE',
+  contactTitle: 'It starts with', contactTitleAccent: 'a conversation.',
+  contactText: 'Approved contact and commercial information will be added after confirmation.',
+  formNotice: 'This form is a demonstration only. Use fictional details; messages are not sent or stored.',
+  footerNote: 'Design proposal. Services, processes and photographs are illustrative.',
+  scroll: 'EXPLORE THE CONCEPT'
+};
+---
+<Base lang={lang} title={`Dominion · ${d.heroSecond}`} description={d.heroDescription} alternate={conceptRoute(other, 'dominion')} bodyClass="dominion-page">
+  <Switcher lang={lang} active="dominion" />
+  <header class="d-header">
+    <div class="d-shell d-header-inner">
+      <Brand href={conceptRoute(lang, 'dominion')} />
+      <nav class="d-desktop-nav" aria-label={t.menu}>
+        {nav.map(([id, title]) => <a href={`#${id}`}>{title}</a>)}
+      </nav>
+      <div class="d-header-end">
+        <a class="d-lang" href={conceptRoute(other, 'dominion')} lang={other} aria-label={lang === 'ro' ? 'Switch to English' : 'Schimbă în română'}>{other.toUpperCase()} <span aria-hidden="true">↗</span></a>
+        <details class="d-mobile-nav">
+          <summary aria-label={t.menu}><span>{t.menu}</span><span aria-hidden="true">☰</span></summary>
+          <nav aria-label={t.menu}>
+            {nav.map(([id, title]) => <a href={`#${id}`}>{title}<span aria-hidden="true">↗</span></a>)}
+          </nav>
+        </details>
+      </div>
+    </div>
+  </header>
+  <main id="main">
+    <section class="d-hero" aria-labelledby="d-hero-title">
+      <div class="d-hero-ring" aria-hidden="true"></div>
+      <div class="d-shell d-hero-inner">
+        <div class="d-hero-kicker"><span>{d.eyebrow}</span><span>SECURITY SRL / 04</span></div>
+        <div class="d-hero-main">
+          <div class="d-hero-content">
+            <h1 id="d-hero-title"><span>{d.heroFirst}</span><em>{d.heroSecond}</em></h1>
+            <div class="d-hero-actions">
+              <p>{d.heroDescription}</p>
+              <a class="d-circle-cta" href="#contact" aria-label={t.contactUs}><span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <div class="d-hero-side">
+            <div class="d-hero-side-image"><Image src={surveillance} alt={projects[1][lang].alt} widths={[360,600,900]} sizes="(max-width: 760px) 82vw, 22vw" loading="eager" fetchpriority="high" /></div>
+            <span>{t.illustration} / 04</span>
+          </div>
+        </div>
+        <div class="d-hero-bottom"><a href="#services">{d.scroll} <span aria-hidden="true">↓</span></a><span>{d.heroAside}</span></div>
+      </div>
+    </section>
+
+    <section id="services" class="d-section d-services" aria-labelledby="d-services-title">
+      <div class="d-shell">
+        <div class="d-section-label"><span>{d.serviceLabel}</span><span>01 — 04</span></div>
+        <div class="d-intro"><h2 id="d-services-title">{d.serviceTitle}<br/><em>{d.serviceTitleAccent}</em></h2><p>{d.serviceIntro}</p></div>
+        <div class="d-services-grid">
+          {services.map((s,i) => <article class="d-service" data-d-reveal>
+            <span class="d-count">0{i+1} / 04</span>
+            <div class="d-service-body"><h3>{s[lang].title}</h3><p>{s[lang].text}</p>
+            <details><summary>{t.details}<span aria-hidden="true">+</span></summary><p>{s[lang].detail}</p></details></div>
+            <span class="d-service-symbol" aria-hidden="true">↗</span>
+          </article>)}
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="d-section d-about" aria-labelledby="d-about-title">
+      <div class="d-shell">
+        <div class="d-section-label"><span>{d.aboutLabel}</span><span>DOMINION / METHOD</span></div>
+        <div class="d-about-grid">
+          <div class="d-about-display"><span class="d-watermark" aria-hidden="true">04</span><h2 id="d-about-title">{d.aboutTitle}<br/><em>{d.aboutTitleAccent}</em></h2></div>
+          <div class="d-about-content"><p class="d-about-lead">{t.aboutIntro}</p><p>{t.aboutText}</p><p class="d-caution">{t.aboutPending}</p></div>
+        </div>
+        <div class="d-process-title">{d.processLabel}</div>
+        <div class="d-process">{t.processSteps.map((step,i)=><article data-d-reveal><span>0{i+1}</span><h3>{step}</h3><p>{t.processText[i]}</p></article>)}</div>
+      </div>
+    </section>
+
+    <section id="projects" class="d-section d-projects" aria-labelledby="d-projects-title">
+      <div class="d-shell">
+        <div class="d-section-label"><span>{d.projectLabel}</span><span>01 — 02</span></div>
+        <div class="d-intro"><h2 id="d-projects-title">{d.projectTitle}<br/><em>{d.projectTitleAccent}</em></h2><p>{t.projectsIntro}</p></div>
+        <div class="d-project-grid">
+          {projects.map((project,i) => <article class="d-project" data-d-reveal>
+            <figure><Image src={project.image} alt={project[lang].alt} widths={[480,800,1200]} sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" style={`object-position:${project.position}`} /><figcaption>{t.demo}</figcaption></figure>
+            <div class="d-project-index"><span>0{i+1} / {project[lang].category}</span><span aria-hidden="true">↗</span></div>
+            <h3>{project[lang].title}</h3><p>{project[lang].description}</p>
+            <details><summary>{t.projectDetail}<span aria-hidden="true">+</span></summary><div><strong>{t.context}</strong><p>{project[lang].context}</p><strong>{t.approach}</strong><p>{project[lang].approach}</p></div></details>
+          </article>)}
+        </div>
+        <p class="d-caution">{d.projectsNote}</p>
+      </div>
+    </section>
+
+    <section class="d-image-banner" aria-label={t.illustration}>
+      <Image src={facade} alt={projects[0][lang].alt} widths={[640,1280,1920]} sizes="100vw" loading="lazy" />
+      <div class="d-image-banner-copy d-shell"><span>04 / DOMINION</span><span>{d.heroMeta}</span></div>
+    </section>
+
+    <section id="contact" class="d-section d-contact" aria-labelledby="d-contact-title">
+      <div class="d-shell">
+        <div class="d-section-label"><span>{d.contactLabel}</span><span>04 / 04</span></div>
+        <div class="d-contact-grid">
+          <div class="d-contact-info"><h2 id="d-contact-title">{d.contactTitle}<br/><em>{d.contactTitleAccent}</em></h2><p>{t.contactIntro}</p><p class="d-caution">{d.contactText}</p></div>
+          <form class="d-form" data-demo-form data-success={t.formSuccess} data-error={t.formError} method="dialog">
+            <p class="d-form-notice">{d.formNotice}</p>
+            <div class="d-form-fields">
+              <label>{t.name}<input required data-field="name" minlength="2" maxlength="100" autocomplete="off"/></label>
+              <label>{t.email}<input required type="email" data-field="email" maxlength="254" autocomplete="off"/></label>
+            </div>
+            <label>{t.message}<textarea required data-field="message" minlength="10" maxlength="3000" rows="5"></textarea></label>
+            <label class="d-consent"><input type="checkbox" required data-field="consent" /><span>{t.consent}</span></label>
+            <button type="button" data-demo-submit class="d-submit">{t.submit}<span aria-hidden="true">↗</span></button>
+            <p class="form-feedback" role="status" tabindex="-1"></p>
+            <noscript><p>{t.noJs}</p></noscript>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="d-footer"><div class="d-shell">
+    <div class="d-footer-top"><Brand href={conceptRoute(lang, 'dominion')}/><a href="#main">{t.backHome} ↑</a></div>
+    <p>{d.footerNote}</p>
+    <nav class="d-footer-nav" aria-label={t.menu}>{nav.map(([id,title]) => <a href={`#${id}`}>{title}</a>)}<a href={conceptRoute(other,'dominion')} lang={other}>{other.toUpperCase()}</a></nav>
+    <div class="d-legal">
+      <details><summary>{t.privacy}</summary><p>{t.privacyText}</p><p>{t.legalNote}</p></details>
+      <details><summary>{t.cookies}</summary><p>{t.cookieText}</p></details>
+      <button type="button" data-open-consent>{t.preferences}</button>
+    </div>
+    <div class="d-footer-bottom"><span>© {new Date().getFullYear()} SECURITY SRL</span><a href={galleryRoute(lang)}>{t.gallery} ↗</a><span>CONCEPT 04 / DOMINION</span></div>
+  </div></footer>
+  <script>import '../../scripts/dominion';</script>
+</Base>

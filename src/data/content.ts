@@ -176,7 +176,7 @@ export const concepts = [
     id: 'dominion',
     number: '04',
     name: 'Dominion',
-    available: false,
+    available: true,
     ro: {
       subtitle: 'Confident Presence',
       description:
