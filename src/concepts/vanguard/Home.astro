@@ -9,6 +9,7 @@ import { services, projects } from '../../data/content';
 import { conceptRoute, galleryRoute } from '../../lib/routes';
 import surveillance from '../../assets/surveillance.jpg';
 import '../../styles/vanguard.css';
+import '../../styles/vanguard-motion.css';
 const { lang } = Astro.props as { lang: Locale };
 const t = copy[lang];
 const other = lang === 'ro' ? 'en' : 'ro';
@@ -68,7 +69,7 @@ const nav = [
       </div>
       <div class="v-hero-grid">
         <div class="v-hero-copy">
-          <h1 id="v-title">
+          <h1 id="v-title" data-v-hero="title">
             {lang === 'ro' ? (
               <>
                 Securitatea
@@ -87,8 +88,8 @@ const nav = [
               </>
             )}
           </h1>
-          <p>{t.heroDescription}</p>
-          <div class="v-actions">
+          <p data-v-hero="intro">{t.heroDescription}</p>
+          <div class="v-actions" data-v-hero="actions">
             <a class="v-button" href="#contact">
               {t.contactUs}
               <Icon name="diagonal" />
@@ -99,7 +100,7 @@ const nav = [
             </a>
           </div>
         </div>
-        <figure class="v-hero-media">
+        <figure class="v-hero-media" data-v-hero="media">
           <Image
             src={surveillance}
             alt={projects[1][lang].alt}
@@ -108,7 +109,7 @@ const nav = [
             loading="eager"
             fetchpriority="high"
           />
-          <span class="v-media-arrow" aria-hidden="true">
+          <span class="v-media-arrow" aria-hidden="true" data-v-hero="arrow">
             ↗
           </span>
           <figcaption>
@@ -127,14 +128,14 @@ const nav = [
     </section>
     <section id="services" class="v-section v-solutions" aria-labelledby="v-services-title">
       <div class="v-wrap">
-        <div class="v-section-head" data-v-enter>
+        <div class="v-section-head" data-v-enter data-v-group>
           <span class="v-kicker">{t.servicesEyebrow}</span>
           <h2 id="v-services-title">{t.servicesTitle}</h2>
           <p>{t.servicesIntro}</p>
         </div>
         <div class="v-service-list">
           {services.map((s, i) => (
-            <article class="v-service" data-v-enter>
+            <article class="v-service" data-v-enter data-v-motion="service">
               <span class="v-index">0{i + 1}</span>
               <Icon name={s.icon} size={32} />
               <div>
@@ -161,14 +162,14 @@ const nav = [
       </div>
     </section>
     <section id="projects" class="v-section v-wrap" aria-labelledby="v-projects-title">
-      <div class="v-section-head" data-v-enter>
+      <div class="v-section-head" data-v-enter data-v-group>
         <span class="v-kicker">{t.projectsEyebrow}</span>
         <h2 id="v-projects-title">{t.projectsTitle}</h2>
         <p>{t.projectsIntro}</p>
       </div>
       <div class="v-project-grid">
         {projects.map((project, i) => (
-          <article class="v-project" data-v-enter>
+          <article class="v-project" data-v-enter data-v-motion="project">
             <div class="v-project-image">
               <Image
                 src={project.image}
@@ -208,14 +209,14 @@ const nav = [
     <section id="about" class="v-section v-about" aria-labelledby="v-about-title">
       <div class="v-wrap">
         <div class="v-about-grid">
-          <div data-v-enter>
+          <div data-v-enter data-v-motion="about-title">
             <span class="v-kicker">{t.aboutEyebrow}</span>
             <h2 id="v-about-title">{t.aboutTitle}</h2>
             <span class="v-about-arrow" aria-hidden="true">
               ↗
             </span>
           </div>
-          <div class="v-about-copy" data-v-enter>
+          <div class="v-about-copy" data-v-enter data-v-motion="about-copy">
             <p>{t.aboutIntro}</p>
             <p>{t.aboutText}</p>
             <p class="v-disclaimer">{t.aboutPending}</p>
@@ -223,7 +224,7 @@ const nav = [
         </div>
         <div class="v-process">
           {t.processSteps.map((step, i) => (
-            <article data-v-enter>
+            <article data-v-enter data-v-motion="process">
               <span class="v-index">0{i + 1}</span>
               <h3>{step}</h3>
               <p>{t.processText[i]}</p>
@@ -234,13 +235,13 @@ const nav = [
     </section>
     <section id="contact" class="v-section v-wrap" aria-labelledby="v-contact-title">
       <div class="v-contact-grid">
-        <div data-v-enter>
+        <div data-v-enter data-v-motion="contact-title">
           <span class="v-kicker">04 / {t.contact}</span>
           <h2 id="v-contact-title">{t.contactTitle}</h2>
           <p>{t.contactIntro}</p>
           <p class="v-disclaimer">{t.contactPending}</p>
         </div>
-        <div class="v-form-panel">
+        <div class="v-form-panel" data-v-form-panel>
           <h3>{t.formTitle}</h3>
           <p id="v-form-note">{t.formNote}</p>
           <form
