@@ -134,29 +134,29 @@
   background: #171715;
   overflow: hidden;
 }
-.hero-image,
 .hero-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 85% 50%;
-  z-index: -3;
-  filter: saturate(0.45);
-}
-.hero-video {
-  z-index: -2;
+  object-position: 80% 50%;
+  z-index: 0;
+  filter: none;
+  pointer-events: none;
 }
 .hero-shade {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
+  pointer-events: none;
   background:
     linear-gradient(90deg, #08090bf0 0%, #08090bbd 29%, #08090b20 76%),
     linear-gradient(0deg, #08090bb8 0%, transparent 50%);
 }
 .hero-content {
+  position: relative;
+  z-index: 2;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -966,9 +966,6 @@ form .check-label {
     padding-bottom: 30px;
     min-height: 640px;
   }
-  .hero-image {
-    object-position: 100% 50%;
-  }
   .hero-shade {
     background:
       linear-gradient(90deg, #08090be8, #08090b65), linear-gradient(0deg, #08090bc9, transparent);
@@ -1245,18 +1242,38 @@ form .check-label {
   }
 }
 
-/* Supplied Romanian hero footage: preserve its colors and the existing overlay. */
-.sentinel-camera-video {
-  filter: none;
-  object-position: 80% 50%;
-  pointer-events: none;
-  opacity: 0;
+/* Video-first playback: retain the neutral hero background when video is paused. */
+.sentinel-video-controls {
+  position: absolute;
+  z-index: 3;
+  right: max(20px, calc((100vw - 1320px) / 2));
+  bottom: 22px;
+  max-width: min(350px, calc(100% - 40px));
 }
-.sentinel-camera-video.is-playing {
-  opacity: 1;
+.sentinel-video-controls button {
+  background: #111519eb;
+  color: #f5f3ed;
+  border: 1px solid #c5a46d;
+  border-radius: 3px;
+  padding: 12px 16px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
 }
+.sentinel-video-controls button span { padding-left: 14px; }
+.sentinel-video-controls button:focus-visible {
+  outline: 3px solid #f4d49b;
+  outline-offset: 3px;
+}
+.sentinel-video-controls p {
+  background: #111519e8;
+  color: #f5f3ed;
+  padding: 10px 14px;
+  font-size: 12px;
+}
+.sentinel-video-controls [hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) {
-  .sentinel-camera-video {
-    display: none;
+  .sentinel-camera-video:not(.user-activated) {
+    visibility: hidden;
   }
 }
