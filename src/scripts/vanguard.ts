@@ -37,6 +37,7 @@ if (root) {
   const heroCopy = root.querySelector<HTMLElement>('.v-hero-copy');
   const heroImage = root.querySelector<HTMLElement>('.v-hero-media img');
   const heroArrow = root.querySelector<HTMLElement>('.v-media-arrow');
+  const projectImages = [...root.querySelectorAll<HTMLElement>('.v-project-image img')];
   const heroParts = ['title', 'intro', 'actions', 'media', 'arrow']
     .map(name => root.querySelector<HTMLElement>(`[data-v-hero="${name}"]`))
     .filter((element): element is HTMLElement => Boolean(element));
@@ -61,6 +62,7 @@ if (root) {
     if (heroCopy) clearStyle(heroCopy);
     if (heroImage) clearStyle(heroImage);
     if (heroArrow) clearStyle(heroArrow);
+    projectImages.forEach(image => image.style.removeProperty('--v-parallax-y'));
     root.removeAttribute('data-v-motion-active');
   }
 
@@ -121,6 +123,12 @@ if (root) {
       element.style.setProperty('--v-motion-x', `${x.toFixed(2)}px`);
       element.style.setProperty('--v-motion-y', `${y.toFixed(2)}px`);
       element.style.setProperty('--v-motion-opacity', opacity.toFixed(3));
+    });
+    projectImages.forEach((image, index) => {
+      const rect = image.getBoundingClientRect();
+      const progress = clamp((height - rect.top) / Math.max(1, height + rect.height));
+      const distance = mobile ? 8 : 24;
+      image.style.setProperty('--v-parallax-y', `${((index % 2 ? -1 : 1) * (progress - .5) * distance).toFixed(2)}px`);
     });
     if (hero && heroCopy && heroImage) {
       const rect = hero.getBoundingClientRect();
