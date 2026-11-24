@@ -68,20 +68,24 @@ test('reduced motion pauses video, keeps it in DOM, and offers manual play', asy
   await expect(video).toHaveCSS('visibility', 'visible');
   await expect(button).toBeHidden();
 });
-test('when autoplay is rejected the visitor can manually play video', async ({ page }) => {
-  await page.addInitScript(() => {
+test('manual playback can recover when a play request is denied', async ({ page }) => {
+  await page.goto(en);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const button = page.getByRole('button', { name: 'Play background video' });
+  await expect(button).toBeVisible();
+  await page.evaluate(() => {
     const nativePlay = HTMLMediaElement.prototype.play;
-    let blocked = false;
+    let rejectOnce = true;
     HTMLMediaElement.prototype.play = function () {
-      if (!blocked) {
-        blocked = true;
+      if (rejectOnce) {
+        rejectOnce = false;
         return Promise.reject(new DOMException('Autoplay denied', 'NotAllowedError'));
       }
       return nativePlay.call(this);
     };
   });
-  await page.goto(en);
-  const button = page.getByRole('button', { name: 'Play background video' });
+  // Returning to normal motion invokes the programmatic autoplay attempt.
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect(button).toBeVisible();
   await button.click();
   await expect.poll(() => page.locator('.sentinel-camera-video').evaluate((v: HTMLVideoElement) => v.paused)).toBe(false);
