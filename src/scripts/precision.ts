@@ -61,7 +61,7 @@ if (carousel) {
     }
     function shouldRotate() {
       return running && !manualPause && !prefersReduced.matches &&
-        !hovering && !focused && !document.hidden && !destroyed;
+        !hovering && !focused && !widget.contains(document.activeElement) && !document.hidden && !destroyed;
     }
     function updateToggle() {
       const isPlaying = running && !manualPause && !prefersReduced.matches;
