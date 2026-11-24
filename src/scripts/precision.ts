@@ -17,6 +17,7 @@ form?.querySelector<HTMLButtonElement>('[data-demo-submit]')?.addEventListener('
 const carousel = document.querySelector<HTMLElement>('[data-p-carousel]');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 if (carousel) {
+  const widget = carousel;
   const cards = [...carousel.querySelectorAll<HTMLElement>('[data-p-card]')];
   const toggler = carousel.querySelector<HTMLButtonElement>('[data-p-toggle]');
   const previous = carousel.querySelector<HTMLButtonElement>('[data-p-prev]');
@@ -52,7 +53,7 @@ if (carousel) {
     let unteleportFrame = 0;
     let previously = cards.map(() => '');
     let destroyed = false;
-    const period = Number(carousel.dataset.duration) || 5000;
+    const period = Number(widget.dataset.duration) || 5000;
 
     function stopTimer() {
       if (timer !== undefined) clearTimeout(timer);
@@ -161,11 +162,11 @@ if (carousel) {
       updateToggle();
       schedule();
     });
-    carousel.addEventListener('pointerenter', () => { hovering = true; stopTimer(); });
-    carousel.addEventListener('pointerleave', () => { hovering = false; schedule(); });
-    carousel.addEventListener('focusin', () => { focused = true; stopTimer(); });
-    carousel.addEventListener('focusout', event => {
-      if (event.relatedTarget instanceof Node && carousel.contains(event.relatedTarget)) return;
+    widget.addEventListener('pointerenter', () => { hovering = true; stopTimer(); });
+    widget.addEventListener('pointerleave', () => { hovering = false; schedule(); });
+    widget.addEventListener('focusin', () => { focused = true; stopTimer(); });
+    widget.addEventListener('focusout', event => {
+      if (event.relatedTarget instanceof Node && widget.contains(event.relatedTarget)) return;
       focused = false;
       schedule();
     });
@@ -189,7 +190,7 @@ if (carousel) {
       if (unteleportFrame) cancelAnimationFrame(unteleportFrame);
       document.removeEventListener('visibilitychange', onVisibility);
     });
-    carousel.classList.add('is-ready');
+    widget.classList.add('is-ready');
     layout();
     updateToggle();
     schedule();
