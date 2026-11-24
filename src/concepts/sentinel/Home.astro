@@ -1,5 +1,5 @@
 ---
-import { Image, getImage } from 'astro:assets';
+import { Image } from 'astro:assets';
 import { copy, type Locale } from '../../i18n';
 import { services, projects } from '../../data/content';
 import { site } from '../../config/site';
@@ -11,55 +11,34 @@ import facade from '../../assets/facade.jpg';
 import surveillance from '../../assets/surveillance.jpg';
 const { lang } = Astro.props as { lang: Locale };
 const t = copy[lang];
-const poster = await getImage({ src: facade, width: 1600, format: 'webp' });
 const featured = site.featuredOrder
   .map((id) => projects.find((p) => p.id === id))
   .filter((p): p is (typeof projects)[number] => Boolean(p));
 ---
 
 <section class="hero">
-  <Image
-    class="hero-image"
-    src={facade}
-    alt=""
-    widths={[800, 1200, 1600]}
-    sizes="100vw"
-    loading="eager"
-    fetchpriority="high"
-  />
-  {lang === 'ro' && (
-    <template data-sentinel-hero-template>
-      <video
-        class="hero-video sentinel-camera-video"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        poster={poster.src}
-        aria-hidden="true"
-        tabindex="-1"
-      >
-        <source src="/media/sentinel-hero-security-camera.mp4" type="video/mp4" />
-      </video>
-    </template>
-  )}
-  {lang !== 'ro' && site.heroVideo.mp4 && (
-    <video
-      class="hero-video"
-      data-hero-video
-      muted
-      loop
-      playsinline
-      preload="none"
-      poster={poster.src}
-      aria-hidden="true"
-      style={`object-position:${site.heroVideo.objectPosition}`}
-    >
-      {site.heroVideo.webm && <source data-src={site.heroVideo.webm} type="video/webm" />}
-      <source data-src={site.heroVideo.mp4} type="video/mp4" />
-    </video>
-  )}
+  <video
+    class="hero-video sentinel-camera-video"
+    data-sentinel-hero-video
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <source src="/media/sentinel-hero-security-camera.mp4" type="video/mp4" />
+  </video>
+  <div class="sentinel-video-controls" data-sentinel-video-controls>
+    <button type="button" data-sentinel-video-play hidden>
+      ${lang === 'ro' ? 'Redă videoclipul' : 'Play background video'}
+      <span aria-hidden="true">▶</span>
+    </button>
+    <p role="status" data-sentinel-video-error hidden>
+      ${lang === 'ro' ? 'Videoclipul nu este disponibil momentan.' : 'Background video is currently unavailable.'}
+    </p>
+  </div>
   <div class="hero-shade"></div>
   <div class="container hero-content">
     <div class="hero-top">
