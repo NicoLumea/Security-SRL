@@ -228,7 +228,7 @@
   .p-category-controls button { padding: 7px 9px; min-width: 44px; min-height: 44px; }
   .p-category-toolbar { flex-wrap: wrap; }
   .p-category-detail { min-height: 310px; }
-  .p-category-track:not(.is-ready) { grid-template-columns: 1fr; }
+  .p-category-carousel:not(.is-ready) .p-category-track { grid-template-columns: 1fr; }
 }
 @media (max-width: 360px) {
   .p-category-carousel.is-ready .p-category-card { width: 80vw; }
