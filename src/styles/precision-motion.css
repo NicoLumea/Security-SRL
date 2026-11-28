@@ -1,0 +1,251 @@
+/* Precision / architectural category control panel. The original palette is retained. */
+.precision-page {
+  --pc-metal: #776444;
+  --pc-ink: #292e30;
+  --pc-paper: #e5e2d9;
+  --pc-speed: 850ms;
+}
+.p-category-carousel {
+  border-top: 1px solid #a6a295;
+  border-bottom: 1px solid #a6a295;
+  padding-bottom: 36px;
+  overflow: clip;
+}
+.p-category-toolbar, .p-category-detail-index {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.p-category-toolbar {
+  padding: 23px 0 17px;
+}
+.p-category-eyebrow, .p-category-detail-index, .p-category-number {
+  font-size: 10px;
+  letter-spacing: .15em;
+  font-variant-numeric: tabular-nums;
+  color: #55564e;
+}
+.p-category-controls {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.p-category-controls button {
+  min-width: 46px;
+  min-height: 46px;
+  padding: 9px 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  background: transparent;
+  color: var(--pc-ink);
+  border: 1px solid #aba89e;
+  font: 500 12px 'Manrope Variable', sans-serif;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.p-category-controls button:hover {
+  background: #343a38;
+  color: #fff;
+  border-color: #343a38;
+}
+.p-category-controls button:disabled { opacity: .55; cursor: not-allowed; }
+.p-category-viewport { position: relative; }
+.p-category-track {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.p-category-card {
+  min-width: 0;
+  position: relative;
+  background: #d9d7cf;
+  border: 1px solid #ada99e;
+}
+.p-category-card > button {
+  width: 100%;
+  min-height: 230px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 17px;
+  text-align: left;
+  background: transparent;
+  color: var(--pc-ink);
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.p-category-card button:hover .p-category-icon { color: #655334; }
+.p-category-icon {
+  width: 76px;
+  height: 76px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: #5a605b;
+  transition: transform .7s cubic-bezier(.2,.7,.2,1), color .5s;
+}
+.p-category-rings, .p-category-rings::before, .p-category-rings::after {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  content: '';
+  opacity: .37;
+}
+.p-category-rings::before { inset: 12px; opacity: .7; }
+.p-category-rings::after { inset: 24px; opacity: .8; }
+.p-category-icon svg { position: relative; z-index: 1; }
+.p-category-name {
+  font-size: clamp(18px, 2.2vw, 29px);
+  font-weight: 600;
+  letter-spacing: -.045em;
+  line-height: 1.15;
+}
+.p-category-marker { display: none; }
+.p-category-nojs-description { padding: 0 24px 24px; }
+.p-category-nojs-description p { margin-top: 12px; font-size: 13px; color: #434945; }
+.p-category-sr-description {
+  position: absolute!important;
+  width: 1px!important; height: 1px!important;
+  overflow: hidden!important; clip-path: inset(50%);
+  white-space: nowrap;
+}
+.p-category-detail {
+  margin-top: 25px;
+  border-top: 1px solid #a6a295;
+  padding: 23px 0 0;
+  min-height: 260px;
+  transition: opacity .35s ease, transform .35s ease;
+}
+.p-category-detail h3 {
+  font-size: clamp(30px, 4vw, 51px);
+  margin: 19px 0 12px;
+}
+.p-category-detail .p-category-summary {
+  color: #424841;
+  font-size: 16px;
+  font-weight: 600;
+}
+.p-category-description { color: #414944; max-width: 780px; margin-top: 10px!important; font-size: 14px; }
+.p-category-contact {
+  display: inline-flex;
+  gap: 30px;
+  align-items: center;
+  margin-top: 19px;
+  font-size: 12px;
+  text-underline-offset: 5px;
+}
+.p-category-status:empty { display: none; }
+.p-category-status { font-size: 12px; margin-top: 15px!important; }
+.p-category-carousel.is-ready .p-category-track {
+  display: block;
+  height: 312px;
+  position: relative;
+  isolation: isolate;
+}
+.p-category-carousel.is-ready .p-category-card {
+  position: absolute;
+  top: 17px;
+  left: 50%;
+  width: min(32%, 390px);
+  height: 275px;
+  transform: translateX(calc(-50% + var(--pc-offset, 0px))) scale(var(--pc-scale, 1));
+  opacity: var(--pc-opacity, 1);
+  z-index: var(--pc-layer, 1);
+  transform-origin: center center;
+  pointer-events: var(--pc-pointer, auto);
+  transition: transform var(--pc-speed) cubic-bezier(.2,.7,.2,1), opacity var(--pc-speed) ease, border-color .5s, background .5s;
+}
+.p-category-carousel.is-ready .p-category-card[data-slot="center"] {
+  --pc-offset: 0px; --pc-scale: 1; --pc-opacity: 1; --pc-layer: 3; --pc-pointer: auto;
+  background: #eeece5;
+  border-color: #766344;
+  box-shadow: 0 0 0 1px #766344;
+}
+.p-category-carousel.is-ready .p-category-card[data-slot="left"] {
+  --pc-offset: calc(-1 * clamp(245px, 30vw, 410px));
+  --pc-scale: .82; --pc-opacity: 1; --pc-layer: 2; --pc-pointer: auto;
+}
+.p-category-carousel.is-ready .p-category-card[data-slot="right"] {
+  --pc-offset: clamp(245px, 30vw, 410px);
+  --pc-scale: .82; --pc-opacity: 1; --pc-layer: 2; --pc-pointer: auto;
+}
+.p-category-carousel.is-ready .p-category-card[data-slot="far"] {
+  --pc-offset: calc(-1 * clamp(650px, 74vw, 1010px));
+  --pc-scale: .74; --pc-opacity: 0; --pc-layer: 0; --pc-pointer: none;
+}
+.p-category-carousel.is-ready .p-category-card.is-teleport { transition: none!important; }
+.p-category-carousel.is-ready .p-category-nojs-description { display: none; }
+.p-category-carousel.is-ready .p-category-card > button { min-height: 100%; padding: 22px; }
+.p-category-carousel.is-ready .p-category-icon { width: 100px; height: 100px; }
+.p-category-carousel.is-ready .p-category-card[data-slot="center"] .p-category-icon {
+  transform: scale(1.08);
+  color: #776444;
+}
+.p-category-carousel.is-ready .p-category-card[data-slot="center"] .p-category-rings {
+  border-color: #776444; opacity: .74;
+}
+.p-category-carousel.is-ready .p-category-card[data-slot="center"] .p-category-name { font-weight: 700; }
+.p-category-carousel.is-ready .p-category-card[data-slot="far"] button { visibility: hidden; }
+.p-category-carousel.is-ready .p-category-detail.is-changing {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.p-category-carousel.is-ready .p-category-card[data-slot="center"] .p-category-marker {
+  display: block;
+  position: absolute;
+  top: 25px; right: 22px;
+  color: #776444;
+  font-size: 24px;
+}
+.p-motion-hero .p-hero-art, .p-motion-hero h1, .p-motion-hero .p-lead {
+  /* Hero initial motion is initiated from the external module, never by hiding text in CSS. */
+  backface-visibility: hidden;
+}
+@media (max-width: 700px) {
+  .p-category-carousel.is-ready .p-category-card {
+    width: min(78vw, 340px);
+    height: 264px;
+    top: 19px;
+  }
+  .p-category-carousel.is-ready .p-category-card[data-slot="left"] {
+    --pc-offset: calc(-1 * clamp(245px, 76vw, 350px));
+  }
+  .p-category-carousel.is-ready .p-category-card[data-slot="right"] {
+    --pc-offset: clamp(245px, 76vw, 350px);
+  }
+  .p-category-carousel.is-ready .p-category-card[data-slot="far"] {
+    --pc-offset: -720px;
+  }
+  .p-category-carousel.is-ready .p-category-track { height: 307px; }
+  .p-category-carousel.is-ready .p-category-icon { width: 88px; height: 88px; }
+  .p-category-controls { gap: 5px; }
+  .p-category-controls button { padding: 7px 9px; min-width: 44px; min-height: 44px; }
+  .p-category-toolbar { flex-wrap: wrap; }
+  .p-category-detail { min-height: 310px; }
+  .p-category-carousel:not(.is-ready) .p-category-track { grid-template-columns: 1fr; }
+}
+@media (max-width: 360px) {
+  .p-category-carousel.is-ready .p-category-card { width: 80vw; }
+  .p-category-carousel.is-ready .p-category-card[data-slot="left"] { --pc-offset: -235px; }
+  .p-category-carousel.is-ready .p-category-card[data-slot="right"] { --pc-offset: 235px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .p-category-carousel *, .p-category-carousel.is-ready .p-category-card, .p-category-detail {
+    transition: none!important; animation: none!important;
+  }
+}
+
+/* Palette-consistent contrast corrections for Precision's pale architectural surfaces. */
+.precision-page .p-section-heading > p,
+.precision-page .p-project > p { color: #49534d; }
+.precision-page .p-disclaimer { color: #484e46; }
+.precision-page .p-contact-grid > div > p { color: #343a35; }
+.precision-page .p-contact-grid > div > .p-disclaimer { color: #41463f; }
+.precision-page .p-category-card[data-slot="left"],
+.precision-page .p-category-card[data-slot="right"] { background: #d4d1c8; }

@@ -3,11 +3,13 @@ import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Switcher from '../../presentation/Switcher.astro';
 import Brand from '../../components/Brand.astro';
+import Icon from '../../components/Icon.astro';
 import { copy, type Locale } from '../../i18n';
 import { services, projects } from '../../data/content';
 import { conceptRoute, galleryRoute } from '../../lib/routes';
 import facade from '../../assets/facade.jpg';
 import '../../styles/precision.css';
+import '../../styles/precision-motion.css';
 const { lang } = Astro.props as { lang: Locale };
 const t = copy[lang];
 const other = lang === 'ro' ? 'en' : 'ro';
@@ -39,7 +41,7 @@ const label = lang === 'ro'
     </div>
   </header>
   <main id="main">
-    <section class="p-hero p-grid-bg" aria-labelledby="p-hero-title">
+    <section class="p-hero p-grid-bg p-motion-hero" aria-labelledby="p-hero-title">
       <div class="p-container">
         <div class="p-section-top"><span>03 / PRECISION</span><span>{label.concept}</span></div>
         <div class="p-hero-layout">
@@ -67,27 +69,52 @@ const label = lang === 'ro'
       <div class="p-section-heading">
         <h2 id="p-services-title">{t.servicesTitle}</h2><p>{t.servicesIntro}</p>
       </div>
-      <div class="p-services">
-        {services.map((service, index) => <article class="p-service">
-          <span class="p-index">0{index + 1}</span>
-          <div><h3>{service[lang].title}</h3><p>{service[lang].text}</p>
-            <details><summary>{t.details} <span aria-hidden="true">+</span></summary><p>{service[lang].detail}</p></details>
+      <div class="p-category-carousel" data-p-carousel data-duration="5000" data-transition="850" aria-label={lang === 'ro' ? 'Categorii de soluții' : 'Solution categories'}>
+        <div class="p-category-toolbar">
+          <span class="p-category-eyebrow">{lang === 'ro' ? 'SELECȚIE / 01—04' : 'SELECTION / 01—04'}</span>
+          <div class="p-category-controls">
+            <button type="button" data-p-prev aria-label={lang === 'ro' ? 'Categoria anterioară' : 'Previous category'}><span aria-hidden="true">←</span></button>
+            <button type="button" data-p-toggle aria-pressed="false" aria-label={lang === 'ro' ? 'Pauză rotație' : 'Pause rotation'}>{lang === 'ro' ? 'Pauză' : 'Pause'} <span aria-hidden="true">Ⅱ</span></button>
+            <button type="button" data-p-next aria-label={lang === 'ro' ? 'Categoria următoare' : 'Next category'}><span aria-hidden="true">→</span></button>
           </div>
-          <a href="#contact" aria-label={`${t.contactUs}: ${service[lang].title}`} class="p-service-arrow">↗</a>
-        </article>)}
+        </div>
+        <div class="p-category-viewport">
+          <div class="p-category-track" role="group" aria-label={lang === 'ro' ? 'Selectați o categorie' : 'Choose a category'}>
+            {services.map((service, index) => (
+              <article class="p-category-card" data-p-card data-index={index} data-title={service[lang].title} data-summary={service[lang].text} data-detail={service[lang].detail}>
+                <button type="button" data-p-select aria-pressed={index === 0 ? 'true' : 'false'} aria-describedby={`p-category-description-${index}`}>
+                  <span class="p-category-number">0{index + 1} / 04</span>
+                  <span class="p-category-icon"><span class="p-category-rings" aria-hidden="true"></span><Icon name={service.icon} size={42} /></span>
+                  <span class="p-category-name">{service[lang].title}</span>
+                  <span class="p-category-marker" aria-hidden="true">＋</span>
+                </button>
+                <p id={`p-category-description-${index}`} class="p-category-sr-description">{service[lang].text} {service[lang].detail}</p>
+                <div class="p-category-nojs-description"><p>{service[lang].text}</p><p>{service[lang].detail}</p></div>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div class="p-category-detail" data-p-detail aria-live="off">
+          <div class="p-category-detail-index"><span data-p-counter>01 / 04</span><span>{lang === 'ro' ? 'CATEGORIE ACTIVĂ' : 'ACTIVE CATEGORY'}</span></div>
+          <h3 data-p-title>{services[0][lang].title}</h3>
+          <p class="p-category-summary" data-p-summary>{services[0][lang].text}</p>
+          <p class="p-category-description" data-p-description>{services[0][lang].detail}</p>
+          <a href="#contact" class="p-category-contact">{t.contactUs} <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="p-category-status" role="status" data-p-status aria-live="polite" aria-atomic="true"></p>
       </div>
     </section>
     <section id="about" class="p-section p-method" aria-labelledby="p-about-title">
       <div class="p-container">
         <div class="p-section-top"><span>02 / {label.method}</span><span>PROCESS / 01—03</span></div>
         <div class="p-method-head"><h2 id="p-about-title">{label.methodLead}</h2><p>{t.aboutIntro} {t.aboutPending}</p></div>
-        <div class="p-process">{t.processSteps.map((step, i) => <article><span class="p-index">0{i + 1}</span><h3>{step}</h3><p>{t.processText[i]}</p></article>)}</div>
+        <div class="p-process">{t.processSteps.map((step, i) => <article class="p-motion-enter"><span class="p-index">0{i + 1}</span><h3>{step}</h3><p>{t.processText[i]}</p></article>)}</div>
       </div>
     </section>
     <section id="projects" class="p-section p-container" aria-labelledby="p-projects-title">
       <div class="p-section-top"><span>03 / {label.evidence}</span><span>SELECTED / 02</span></div>
       <div class="p-section-heading"><h2 id="p-projects-title">{label.portfolio}</h2><p>{t.projectsIntro}</p></div>
-      <div class="p-projects">{projects.map((project, i) => <article class="p-project">
+      <div class="p-projects">{projects.map((project, i) => <article class="p-project p-motion-enter">
         <div class="p-project-media"><Image src={project.image} alt={project[lang].alt} widths={[400, 720, 1100]} sizes="(max-width: 760px) 100vw, 48vw" loading="lazy" style={`object-position:${project.position}`} /><span>{t.demo}</span></div>
         <div class="p-project-top"><span>0{i + 1} / {project[lang].category}</span><span aria-hidden="true">↗</span></div>
         <h3>{project[lang].title}</h3><p>{project[lang].description}</p>
